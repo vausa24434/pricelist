@@ -17,9 +17,9 @@ const PriceList = () => {
           "/api/price-list",
           {
             cmd: "prepaid",
-            username: "yitaxig4J76D",
+            username: VITE_REACT_APP_USERNAME,
             code: "",
-            sign: "4c96f72a53964c6718243f913033a0b6",
+            sign: VITE_REACT_APP_SIGN,
           },
           {
             headers: {
