@@ -1,11 +1,16 @@
 import React from "react";
-import PriceList from "./Components/PriceList";
+import PriceList from "./Pages/PriceList";
+import PriceListLocal from "./Pages/PriceListLocal";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 function App() {
   return (
-    <div className="min-h-screen bg-gray-100 py-8">
-      <PriceList />
-    </div>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<PriceList />} />
+          <Route path="/price-list-local" element={<PriceListLocal />} />
+        </Routes>
+      </BrowserRouter>
   );
 }
 
