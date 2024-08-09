@@ -1,122 +1,18 @@
-// import React, { useEffect, useState } from "react";
-// import axios from "axios";
-// import { supabase } from "../../supabaseClient";
-
-// const PriceList = () => {
-//   const [products, setProducts] = useState([]);
-
-
-//   useEffect(() => {
-//     const fetchPriceList = async () => {
-//       try {
-//         const response = await axios.post(
-//           "/api/price-list",
-//           {
-//             cmd: "prepaid",
-//             username: "yitaxig4J76D",
-//             code: "",
-//             sign: "4c96f72a53964c6718243f913033a0b6",
-//           },
-//           {
-//             headers: {
-//               "Content-Type": "application/json",
-//             },
-//           }
-//         );
-//         console.log("Response data:", response.data);
-//         setProducts(response.data.data);
-//       } catch (error) {
-//         console.error("Error fetching price list:", error);
-//       }
-//     };
-    
-//     fetchPriceList();
-//   }, []);
-
-//   return (
-//     <div className="container mx-auto p-4">
-//       <h1 className="text-2xl font-bold mb-4">Price List</h1>
-//       {products.length === 0 ? (
-//         <p>Loading...</p>
-//       ) : (
-//         Array.isArray(products) && (
-//           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-//             {products.map((product, index) => (
-//               <div
-//                 key={index}
-//                 className="bg-white shadow-md rounded-lg p-4 border"
-//               >
-//                 <h2 className="text-xl font-semibold">{product.product_name}</h2>
-//                 <p className="text-gray-600">{product.desc}</p>
-//                 <p className="text-gray-800 font-bold">
-//                   Price: Rp {product.price.toLocaleString()}
-//                 </p>
-//                 <p>SKU: {product.buyer_sku_code}</p>
-//                 <p>Brand: {product.brand}</p>
-//                 <p>Category: {product.category}</p>
-//                 <p>Type: {product.type}</p>
-//                 <p>Seller: {product.seller_name}</p>
-//                 <p>Stock: {product.unlimited_stock ? "Unlimited" : product.stock}</p>
-//                 <p>Product Status: {product.buyer_product_status ? "Available" : "Unavailable"}</p>
-//                 <p>Seller Status: {product.seller_product_status ? "Available" : "Unavailable"}</p>
-//                 <p>Multi: {product.multi ? "Yes" : "No"}</p>
-//                 {product.start_cut_off && (
-//                   <p>Cut-off Time: {product.start_cut_off} - {product.end_cut_off}</p>
-//                 )}
-//               </div>
-//             ))}
-//           </div>
-//         )
-//       )}
-//     </div>
-//   );
-  
-// };
-
-// export default PriceList;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { supabase } from "../../supabaseClient"; // Import Supabase client
+import { supabase } from "../../supabaseClient"; // Pastikan path sesuai
 
-const PriceListLocal = () => {
-  const [products, setProducts] = useState([]);
+const PriceList = () => {
+  const [priceList, setPriceList] = useState([]);
   const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchPriceList = async () => {
+    const fetchAndUpdatePriceList = async () => {
       try {
+        setLoading(true);
+
+        // Fetch data from external API
         const response = await axios.post(
           "/api/price-list",
           {
@@ -133,15 +29,28 @@ const PriceListLocal = () => {
         );
         console.log("Response data:", response.data);
         const productsData = response.data.data;
-        setProducts(productsData);
+
+        // Save data to Supabase
         await saveProductsToSupabase(productsData);
-      } catch (error) {
-        console.error("Error fetching price list:", error);
+
+        // Fetch updated price list from Supabase
+        const { data, error } = await supabase.from("price_list").select("*");
+
+        if (error) {
+          console.error("Error fetching price list:", error);
+          setError("Failed to fetch price list.");
+        } else {
+          setPriceList(data);
+        }
+      } catch (err) {
+        console.error("Error:", err);
         setError("Failed to fetch price list.");
+      } finally {
+        setLoading(false);
       }
     };
 
-    fetchPriceList();
+    fetchAndUpdatePriceList();
   }, []);
 
   const saveProductsToSupabase = async (products) => {
@@ -172,46 +81,41 @@ const PriceListLocal = () => {
       console.error("Error saving to Supabase:", error);
     }
   };
-    
 
   return (
     <div className="container mx-auto p-4">
       <h1 className="text-2xl font-bold mb-4">Price List</h1>
       {error && <p className="text-red-500">{error}</p>}
-      {products.length === 0 ? (
+      {loading ? (
         <p>Loading...</p>
       ) : (
-        Array.isArray(products) && (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {products.map((product, index) => (
-              <div
-                key={index}
-                className="bg-white shadow-md rounded-lg p-4 border"
-              >
-                <h2 className="text-xl font-semibold">{product.product_name}</h2>
-                <p className="text-gray-600">{product.desc}</p>
-                <p className="text-gray-800 font-bold">
-                  Price: Rp {product.price.toLocaleString()}
-                </p>
-                <p>SKU: {product.buyer_sku_code}</p>
-                <p>Brand: {product.brand}</p>
-                <p>Category: {product.category}</p>
-                <p>Type: {product.type}</p>
-                <p>Seller: {product.seller_name}</p>
-                <p>Stock: {product.unlimited_stock ? "Unlimited" : product.stock}</p>
-                <p>Product Status: {product.buyer_product_status ? "Available" : "Unavailable"}</p>
-                <p>Seller Status: {product.seller_product_status ? "Available" : "Unavailable"}</p>
-                <p>Multi: {product.multi ? "Yes" : "No"}</p>
-                {product.start_cut_off && (
-                  <p>Cut-off Time: {product.start_cut_off} - {product.end_cut_off}</p>
-                )}
-              </div>
-            ))}
-          </div>
-        )
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {priceList.map((product, index) => (
+            <div
+              key={index}
+              className="bg-white shadow-md rounded-lg p-4 border"
+            >
+              <h2 className="text-xl font-semibold">{product.product_name}</h2>
+              <p className="text-gray-600">{product.desc}</p>
+              <p className="text-gray-800 font-bold">
+                Sell Price: Rp {product.sell_price.toLocaleString()}
+              </p>
+              <p>Brand: {product.brand}</p>
+              <p>Category: {product.category}</p>
+              <p>
+                Product Status:{" "}
+                {product.product_status ? "Available" : "Unavailable"}
+              </p>
+              <p>Multi: {product.multi ? "Yes" : "No"}</p>
+              {product.cut_off_time && (
+                <p>Cut-off Time: {product.cut_off_time}</p>
+              )}
+            </div>
+          ))}
+        </div>
       )}
     </div>
   );
 };
 
-export default PriceListLocal;
+export default PriceList;
