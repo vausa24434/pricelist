@@ -9,7 +9,7 @@ const PriceList = () => {
     const fetchPriceList = async () => {
       try {
         const response = await axios.post(
-          "http://localhost:3001/price-list",
+          "/api/price-list",
           {
             cmd: "prepaid",
             username: "yitaxig4J76D",
