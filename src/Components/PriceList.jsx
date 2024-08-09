@@ -98,15 +98,15 @@ const PriceList = () => {
               <h2 className="text-xl font-semibold">{product.product_name}</h2>
               <p className="text-gray-600">{product.desc}</p>
               <p className="text-gray-800 font-bold">
-                Sell Price: Rp {product.sell_price.toLocaleString()}
+                Price: Rp {product.sell_price.toLocaleString()}
               </p>
               <p>Brand: {product.brand}</p>
               <p>Category: {product.category}</p>
               <p>
-                Product Status:{" "}
+                Status:{" "}
                 {product.product_status ? "Available" : "Unavailable"}
               </p>
-              <p>Multi: {product.multi ? "Yes" : "No"}</p>
+              <p>Support Multi?: {product.multi ? "Yes" : "No"}</p>
               {product.cut_off_time && (
                 <p>Cut-off Time: {product.cut_off_time}</p>
               )}
