@@ -50,7 +50,7 @@ const PriceList = () => {
                 <p className="text-gray-800 font-bold">
                   Price: Rp {product.price.toLocaleString()}
                 </p>
-                <p>Brand: {product.buyer_sku_code}</p>
+                <p>SKU: {product.buyer_sku_code}</p>
                 <p>Brand: {product.brand}</p>
                 <p>Category: {product.category}</p>
                 <p>Type: {product.type}</p>
