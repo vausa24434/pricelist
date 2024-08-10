@@ -12,7 +12,7 @@ app.use(bodyParser.json());
 app.post("/price-list", async (req, res) => {
   try {
     const response = await axios.post(
-      process.env.VITE_API_URL,
+      "https://api.digiflazz.com/v1/price-list",
       req.body,
       {
         headers: {
@@ -30,3 +30,10 @@ app.post("/price-list", async (req, res) => {
 app.listen(port, () => {
   console.log(`Proxy server running at http://localhost:${port}`);
 });
+
+
+
+
+
+
+
