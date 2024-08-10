@@ -31,5 +31,5 @@ dist-ssr
 *.sw?
 
 # Custom components files to ignore
-src/Components/PriceListLocal.jsx
-src/Components/UpdatePriceListLocal.jsx
+# src/Components/PriceListLocal.jsx
+# src/Components/UpdatePriceListLocal.jsx

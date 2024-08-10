@@ -1,24 +1,24 @@
+// // untuk localhost, dan harus run kodingan berikut pada folder /my-project/proxy-server/
+// // node server.js
+
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { supabase } from "../../supabaseClient"; // Import Supabase client
 
-const UpdatePriceList = () => {
+const UpdatePriceListLocal = () => {
   const [products, setProducts] = useState([]);
   const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchPriceList = async () => {
       try {
-        const username = import.meta.env.VITE_REACT_APP_USERNAME;
-        const sign = import.meta.env.VITE_REACT_APP_SIGN;
-
         const response = await axios.post(
-          "/api/price-list",
+          "http://localhost:3001/price-list",
           {
             cmd: "prepaid",
-            username: username,
+            username: "yitaxig4J76D",
             code: "",
-            sign: sign,
+            sign: "4c96f72a53964c6718243f913033a0b6",
           },
           {
             headers: {
@@ -109,4 +109,4 @@ const UpdatePriceList = () => {
   );
 };
 
-export default UpdatePriceList;
+export default UpdatePriceListLocal;
