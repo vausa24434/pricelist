@@ -4,7 +4,7 @@ export default async function handler(req, res) {
   if (req.method === 'POST') {
     try {
       const response = await axios.post(
-        import.meta.env.VITE_API_URL,
+        process.env.VITE_API_URL,
         req.body,
         {
           headers: {

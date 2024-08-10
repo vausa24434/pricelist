@@ -12,7 +12,7 @@ app.use(bodyParser.json());
 app.post("/price-list", async (req, res) => {
   try {
     const response = await axios.post(
-      import.meta.env.VITE_API_URL,
+      process.env.VITE_API_URL,
       req.body,
       {
         headers: {
