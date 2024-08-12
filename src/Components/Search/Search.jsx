@@ -8,7 +8,7 @@ const SearchLocal = () => {
   const location = useLocation();
   const {
     searchTerm = '',
-    brand = '',
+    category = '',
   } = location.state || {};
 
   const [products, setProducts] = useState([]);
@@ -22,10 +22,10 @@ const SearchLocal = () => {
 
   // State for search parameters
   const [searchName, setSearchName] = useState(searchTerm || '');
-  const [selectedBrand, setSelectedBrand] = useState(brand || '');
+  const [selectedCategory, setSelectedCategory] = useState(category || '');
 
-  // State for available brands
-  const [brands, setBrands] = useState([]);
+  // State for available categorys
+  const [categorys, setCategorys] = useState([]);
 
   useEffect(() => {
     const fetchAndUpdatePriceList = async () => {
@@ -71,35 +71,35 @@ const SearchLocal = () => {
   }, []);
 
   useEffect(() => {
-    fetchBrands(); // Fetch brands when the component mounts
+    fetchCategorys(); // Fetch categorys when the component mounts
   }, []);
 
-  const fetchBrands = async () => {
+  const fetchCategorys = async () => {
     try {
       const { data, error } = await supabase
         .from('price_list')
-        .select('brand')
-        .neq('brand', '')
-        .order('brand', { ascending: true });
+        .select('category')
+        .neq('category', '')
+        .order('category', { ascending: true });
 
       if (error) {
-        console.error('Error fetching brands:', error);
-        setError('Failed to fetch brands.');
+        console.error('Error fetching categorys:', error);
+        setError('Failed to fetch categorys.');
         return;
       }
 
-      const uniqueBrands = Array.from(new Set(data.map(item => item.brand)));
-      setBrands(uniqueBrands);
+      const uniqueCategorys = Array.from(new Set(data.map(item => item.category)));
+      setCategorys(uniqueCategorys);
     } catch (err) {
       console.error('Error:', err);
-      setError('Failed to fetch brands.');
+      setError('Failed to fetch categorys.');
     }
   };
 
   // Reset currentPage to 1 when search parameters change
   useEffect(() => {
     fetchProducts(); // Fetch products when search parameters change
-  }, [currentPage, searchName, selectedBrand]);
+  }, [currentPage, searchName, selectedCategory]);
 
   const fetchProducts = async () => {
     setLoading(true);
@@ -112,8 +112,8 @@ const SearchLocal = () => {
     if (searchName) {
       countQuery = countQuery.ilike('product_name', `%${searchName}%`);
     }
-    if (selectedBrand) {
-      countQuery = countQuery.eq('brand', selectedBrand);
+    if (selectedCategory) {
+      countQuery = countQuery.eq('category', selectedCategory);
     }
 
     const { count: totalCount, error: countError } = await countQuery;
@@ -135,8 +135,8 @@ const SearchLocal = () => {
     if (searchName) {
       query = query.ilike('product_name', `%${searchName}%`);
     }
-    if (selectedBrand) {
-      query = query.eq('brand', selectedBrand);
+    if (selectedCategory) {
+      query = query.eq('category', selectedCategory);
     }
 
     // Order products by creation date in descending order
@@ -183,6 +183,7 @@ const SearchLocal = () => {
         console.log("Data successfully upserted");
       }
     } catch (error) {
+      console.error("Error upserting data", error);
     }
   };
 
@@ -204,12 +205,12 @@ const SearchLocal = () => {
     <div className="bg-bg_utama py-6 px-4 md:px-24 min-h-screen">
       <SearchBar
         initialName={searchName}
-        onSearch={({ name, brand }) => {
+        onSearch={({ name, category }) => {
           setSearchName(name);
-          setSelectedBrand(brand);
+          setSelectedCategory(category);
           fetchProducts();
         }}
-        brands={brands}
+        categorys={categorys}
       />
       <div className="text-center mb-8">
         <h1 className="text-xl md:text-2xl font-bold">
@@ -257,7 +258,7 @@ const SearchLocal = () => {
                   />
                   <div className="p-2 md:p-4">
                     <h3 className="text-sm md:text-lg font-bold mb-1">
-                      {formatItemName(product.product_name)}
+                      {(product.product_name)}
                     </h3>
                     <p className="text-gray-600">{product.desc}</p>
                     <p className="text-gray-800 font-bold">
