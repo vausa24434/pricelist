@@ -64,6 +64,7 @@ const UpdatePriceListLocal = () => {
         console.log("Data successfully upserted into Supabase:", data);
       }
     } catch (error) {
+      console.error("Error upserting data to Supabase:", error);
     }
   };
     
