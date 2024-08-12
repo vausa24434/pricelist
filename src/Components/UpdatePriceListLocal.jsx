@@ -16,9 +16,9 @@ const UpdatePriceListLocal = () => {
           "http://localhost:3001/price-list",
           {
             cmd: "prepaid",
-            username: import.meta.env.VITE_REACT_APP_USERNAME,
+            username: process.env.VITE_REACT_APP_USERNAME,
             code: "",
-            sign: import.meta.env.VITE_REACT_APP_SIGN,
+            sign: process.env.VITE_REACT_APP_SIGN,
           },
           {
             headers: {

@@ -33,8 +33,8 @@ const SearchLocal = () => {
         setLoading(true);
 
         // Access environment variables using import.meta.env
-        const username = import.meta.env.VITE_REACT_APP_USERNAME;
-        const sign = import.meta.env.VITE_REACT_APP_SIGN;
+        const username = process.env.VITE_REACT_APP_USERNAME;
+        const sign = process.env.VITE_REACT_APP_SIGN;
 
         // Fetch data from external API
         const response = await axios.post(
