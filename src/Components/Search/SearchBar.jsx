@@ -1,8 +1,11 @@
-import React, { useState } from 'react';
 
-const SearchBar = ({ initialName = '', onSearch, categorys }) => {
+import React, { useState, useEffect } from 'react';
+
+const SearchBar = ({ initialName = '', onSearch, categories, brands, types }) => {
   const [searchName, setSearchName] = useState(initialName);
   const [selectedCategory, setSelectedCategory] = useState('');
+  const [selectedBrand, setSelectedBrand] = useState('');
+  const [selectedType, setSelectedType] = useState('');
 
   // Handle input change
   const handleInputChange = (event) => {
@@ -12,12 +15,28 @@ const SearchBar = ({ initialName = '', onSearch, categorys }) => {
   // Handle form submission
   const handleSubmit = (event) => {
     event.preventDefault();
-    onSearch({ name: searchName, category: selectedCategory });
+    onSearch({ name: searchName, category: selectedCategory, brand: selectedBrand, type: selectedType });
   };
 
   // Handle category selection
   const handleCategoryChange = (event) => {
-    setSelectedCategory(event.target.value);
+    const newCategory = event.target.value;
+    setSelectedCategory(newCategory);
+    onSearch({ name: searchName, category: newCategory, brand: '', type: '' });
+  };
+
+  // Handle brand selection
+  const handleBrandChange = (event) => {
+    const newBrand = event.target.value;
+    setSelectedBrand(newBrand);
+    onSearch({ name: searchName, category: selectedCategory, brand: newBrand, type: '' });
+  };
+
+  // Handle type selection
+  const handleTypeChange = (event) => {
+    const newType = event.target.value;
+    setSelectedType(newType);
+    onSearch({ name: searchName, category: selectedCategory, brand: selectedBrand, type: newType });
   };
 
   return (
@@ -36,9 +55,33 @@ const SearchBar = ({ initialName = '', onSearch, categorys }) => {
           className="bg-white border border-gray-300 rounded px-4 py-2 mb-2 md:mb-0 md:mr-2"
         >
           <option value="">Semua Kategori</option>
-          {categorys.map((category) => (
+          {categories.map((category) => (
             <option key={category} value={category}>
               {category}
+            </option>
+          ))}
+        </select>
+        <select
+          value={selectedBrand}
+          onChange={handleBrandChange}
+          className="bg-white border border-gray-300 rounded px-4 py-2 mb-2 md:mb-0 md:mr-2"
+        >
+          <option value="">Semua Brand</option>
+          {brands.map((brand) => (
+            <option key={brand} value={brand}>
+              {brand}
+            </option>
+          ))}
+        </select>
+        <select
+          value={selectedType}
+          onChange={handleTypeChange}
+          className="bg-white border border-gray-300 rounded px-4 py-2 mb-2 md:mb-0 md:mr-2"
+        >
+          <option value="">Semua Type</option>
+          {types.map((type) => (
+            <option key={type} value={type}>
+              {type}
             </option>
           ))}
         </select>
