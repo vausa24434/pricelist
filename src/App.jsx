@@ -3,7 +3,6 @@ import './App.css';
 import UpdatePriceList from "./Pages/UpdatePriceList";
 import UpdatePriceListLocal from "./Pages/UpdatePriceListLocal";
 import Login from './Pages/Login';
-import Register from './Pages/Register';
 import ProtectedRoute from './Pages/ProtectedRoute';
 import { AuthProvider } from './Components/Auth/AuthProvider';
 import { useState, useEffect } from 'react';
@@ -29,7 +28,6 @@ function App() {
         <Routes>
           <Route path="/" element={<Pencarian token={token} />} />
           <Route path="/login" element={<Login setToken={setToken} />} />
-          <Route path="/register" element={<Register />} />
           <Route path="/product/:id" element={<ProductPage />} />
           <Route path="/search" element={<Pencarian />} />
           <Route path="/searchlocal" element={<SearchLocalPage />} />
