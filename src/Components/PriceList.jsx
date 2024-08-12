@@ -12,25 +12,11 @@ const PriceList = () => {
       try {
         setLoading(true);
 
-        // Access environment variables using import.meta.env
-        const username = process.env.VITE_USERNAME;
-        const sign = process.env.VITE_SIGN;
+        const response = await axios.post('/api/price-list', {
+          cmd: 'prepaid',
+          code: '', // Atau parameter lain yang dibutuhkan
+        });
 
-        // Fetch data from external API
-        const response = await axios.post(
-          "/api/price-list",
-          {
-            cmd: "prepaid",
-            username: username,
-            code: "",
-            sign: sign,
-          },
-          {
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
         const productsData = response.data.data;
 
         // Save data to Supabase

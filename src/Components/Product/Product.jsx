@@ -23,20 +23,11 @@ const Product = () => {
         setLoading(true);
 
         // Fetch data from external API
-        const response = await axios.post(
-          "http://localhost:3001/price-list",
-          {
-            cmd: "prepaid",
-            username: process.env.VITE_USERNAME,
-            code: "",
-            sign: process.env.VITE_SIGN,
-          },
-          {
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
+        const response = await axios.post('/api/price-list', {
+          cmd: 'prepaid',
+          code: '', // Atau parameter lain yang dibutuhkan
+        });
+
         const productsData = response.data.data;
 
         // Save data to Supabase

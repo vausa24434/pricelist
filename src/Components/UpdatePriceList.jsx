@@ -9,23 +9,11 @@ const UpdatePriceList = () => {
   useEffect(() => {
     const fetchPriceList = async () => {
       try {
-        const username = process.env.VITE_USERNAME;
-        const sign = process.env.VITE_SIGN;
+        const response = await axios.post('/api/price-list', {
+          cmd: 'prepaid',
+          code: '', // Atau parameter lain yang dibutuhkan
+        });
 
-        const response = await axios.post(
-          "/api/price-list",
-          {
-            cmd: "prepaid",
-            username: username,
-            code: "",
-            sign: sign,
-          },
-          {
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
         console.log("Response data:", response.data);
         const productsData = response.data.data;
         setProducts(productsData);
