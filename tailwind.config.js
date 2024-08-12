@@ -7,7 +7,7 @@ export default {
   theme: {
     extend: {
       colors: {
-        'utama': '#EB0029',
+        'utama': '#0055bb',
         'text_utama': '#333333',
         'putih': '#f2f2f2',
         'cream': '#FEE9DE',

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
-import { supabase } from '../../supabaseClient';
+import { supabase } from '../../../supabaseClient';
 
 export default function Login() {
     const navigate = useNavigate();
@@ -28,9 +28,9 @@ export default function Login() {
     }
 
     const slides = [
-        "/images/tutor-1.png",
-        "/images/tutor-2.png",
-        "/images/tutor-3.png",
+        "/images/logo-muvausa-store.webp",
+        "/images/logo-muvausa-store.webp",
+        "/images/logo-muvausa-store.webp",
     ];
 
     const handlePrevSlide = () => {
@@ -105,7 +105,7 @@ export default function Login() {
                 <div className="w-full md:w-1/2 max-w-md p-8 space-y-6 bg-white rounded-tr-large rounded-bl-large shadow-md">
                     <div className="text-center">
                         <a href="/" className="flex items-center justify-center mb-6 text-2xl font-semibold text-gray-900">
-                            lookasee
+                            Muvausa Store
                         </a>
                     </div>
                     <div className="space-y-4 md:space-y-6">

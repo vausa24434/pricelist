@@ -1,4 +1,4 @@
-import Register from "../Components/Register";
+import Register from "../Components/Auth/Register";
 
 export default function Menu() {
     return (

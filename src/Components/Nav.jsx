@@ -53,7 +53,7 @@ export default function Nav() {
     <>
       <nav className="fixed w-full bg-utama z-50">
         <div className="flex mx-0 sm:mx-20 justify-between items-center p-4">
-          <a onClick={() => navigate("/")} className="text-2xl font-bold cursor-pointer">lookasee</a>
+          <a onClick={() => navigate("/")} className="text-2xl text-white font-bold cursor-pointer">Muvausa Store</a>
 
           <div className="hidden items-center justify-between hidden w-full md:flex md:w-auto md:order-1" id="navbar-sticky">
             <ul className="flex flex-col gap-x-1 p-4 md:p-0 mt-4 font-medium border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-utama">
@@ -62,15 +62,6 @@ export default function Nav() {
                             </li>
                             <li>
                                 <NavLink className={({ isActive }) => (isActive ? activeLink : nonActiveLink)} to='/update'>Update</NavLink>
-                            </li>
-                            <li>
-                                <NavLink className={({ isActive }) => (isActive ? activeLink : nonActiveLink)} to='#'>Unggah</NavLink>
-                            </li>
-                            <li>
-                                <NavLink className={({ isActive }) => (isActive ? activeLink : nonActiveLink)} to='#'>Riwayat</NavLink>
-                            </li>
-                            <li>
-                                <NavLink className={({ isActive }) => (isActive ? activeLink : nonActiveLink)} to='#'>Pesan</NavLink>
                             </li>
             </ul>
           </div>
@@ -128,15 +119,6 @@ export default function Nav() {
                     </li>
                     <li>
                       <NavLink className={({ isActive }) => (isActive ? 'block py-2 px-4 bg-gray-700 rounded' : 'block py-2 px-4 hover:bg-gray-700 rounded')} to='/update'>Update</NavLink>
-                    </li>
-                    <li>
-                      <NavLink className={({ isActive }) => (isActive ? 'block py-2 px-4 bg-gray-700 rounded' : 'block py-2 px-4 hover:bg-gray-700 rounded')} to='#'>Unggah</NavLink>
-                    </li>
-                    <li>
-                      <NavLink className={({ isActive }) => (isActive ? 'block py-2 px-4 bg-gray-700 rounded' : 'block py-2 px-4 hover:bg-gray-700 rounded')} to='#'>Riwayat</NavLink>
-                    </li>
-                    <li>
-                      <NavLink className={({ isActive }) => (isActive ? 'block py-2 px-4 bg-gray-700 rounded' : 'block py-2 px-4 hover:bg-gray-700 rounded')} to='#'>Pesan</NavLink>
                     </li>
                     <li>
                       <button onClick={() => navigate("/login")} className="flex items-center py-12 px-4 text-gray-300 hover:text-white">

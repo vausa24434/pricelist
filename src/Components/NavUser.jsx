@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
-import { useAuth } from './AuthProvider'; // Periksa pathnya
+import { useAuth } from './Auth/AuthProvider'; // Periksa pathnya
 import { supabase } from '../../supabaseClient';
 
 const Nav = () => {
@@ -120,7 +120,7 @@ const Nav = () => {
         <>
             <nav className="fixed w-full bg-utama z-50">
                 <div className="flex mx-0 sm:mx-20 justify-between items-center p-4">
-                    <a onClick={() => navigate("/")} className="text-2xl font-bold cursor-pointer">Muvausa Store</a>
+                    <a onClick={() => navigate("/")} className="text-2xl text-white font-bold cursor-pointer">Muvausa Store</a>
 
                     <div className="hidden items-center justify-between hidden w-full md:flex md:w-auto md:order-1" id="navbar-sticky">
                         <ul className="flex flex-col gap-x-1 p-4 md:p-0 mt-4 font-medium border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-utama">
@@ -131,13 +131,10 @@ const Nav = () => {
                                 <NavLink className={({ isActive }) => (isActive ? activeLink : nonActiveLink)} to='/update'>Update</NavLink>
                             </li>
                             <li>
-                                <NavLink className={({ isActive }) => (isActive ? activeLink : nonActiveLink)} to='#'>Unggah</NavLink>
+                                <NavLink className={({ isActive }) => (isActive ? activeLink : nonActiveLink)} to='/search'>Search</NavLink>
                             </li>
                             <li>
-                                <NavLink className={({ isActive }) => (isActive ? activeLink : nonActiveLink)} to='#'>Riwayat</NavLink>
-                            </li>
-                            <li>
-                                <NavLink className={({ isActive }) => (isActive ? activeLink : nonActiveLink)} to='#'>Pesan</NavLink>
+                                <NavLink className={({ isActive }) => (isActive ? activeLink : nonActiveLink)} to='/searchlocal'>Search Local</NavLink>
                             </li>
                         </ul>
                     </div>
@@ -170,7 +167,7 @@ const Nav = () => {
                                     </div>
                                 </div>
                                 <ul className="py-2 text-sm text-gray-700" aria-labelledby="dropdownDefaultButton">
-                                    <li className=''>
+                                    <li>
                                         <a onClick={() => navigate("#")}
                                             className="flex cursor-pointer inline-block px-4 py-2 hover:bg-gray-100">
                                             <svg className="w-6 h-6 text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
@@ -245,19 +242,13 @@ const Nav = () => {
                                             <NavLink className={({ isActive }) => (isActive ? 'block py-2 px-4 bg-gray-700 rounded' : 'block py-2 px-4 hover:bg-gray-700 rounded')} to='/'>Beranda</NavLink>
                                         </li>
                                         <li>
-                                            <NavLink className={({ isActive }) => (isActive ? 'block py-2 px-4 bg-gray-700 rounded' : 'block py-2 px-4 hover:bg-gray-700 rounded')} to='/profile'>Profil</NavLink>
+                                            <NavLink className={({ isActive }) => (isActive ? 'block py-2 px-4 bg-gray-700 rounded' : 'block py-2 px-4 hover:bg-gray-700 rounded')} to='/update'>Update</NavLink>
                                         </li>
                                         <li>
-                                            <NavLink className={({ isActive }) => (isActive ? 'block py-2 px-4 bg-gray-700 rounded' : 'block py-2 px-4 hover:bg-gray-700 rounded')} to='/search'>Pencarian</NavLink>
+                                            <NavLink className={({ isActive }) => (isActive ? 'block py-2 px-4 bg-gray-700 rounded' : 'block py-2 px-4 hover:bg-gray-700 rounded')} to='/search'>Search</NavLink>
                                         </li>
                                         <li>
-                                            <NavLink className={({ isActive }) => (isActive ? 'block py-2 px-4 bg-gray-700 rounded' : 'block py-2 px-4 hover:bg-gray-700 rounded')} to='/upload'>Unggah</NavLink>
-                                        </li>
-                                        <li>
-                                            <NavLink className={({ isActive }) => (isActive ? 'block py-2 px-4 bg-gray-700 rounded' : 'block py-2 px-4 hover:bg-gray-700 rounded')} to='/riwayat'>Riwayat</NavLink>
-                                        </li>
-                                        <li>
-                                            <NavLink className={({ isActive }) => (isActive ? 'block py-2 px-4 bg-gray-700 rounded' : 'block py-2 px-4 hover:bg-gray-700 rounded')} to='/message'>Pesan</NavLink>
+                                            <NavLink className={({ isActive }) => (isActive ? 'block py-2 px-4 bg-gray-700 rounded' : 'block py-2 px-4 hover:bg-gray-700 rounded')} to='/searchlocal'>Search Local</NavLink>
                                         </li>
                                         <li><button onClick={handleLogout} className="flex items-center py-12 px-4 text-gray-300 hover:text-white">
                                             <svg

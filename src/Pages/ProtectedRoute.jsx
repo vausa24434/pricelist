@@ -32,7 +32,7 @@
 
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../Components/AuthProvider";
+import { useAuth } from "../Components/Auth/AuthProvider";
 import { supabase } from "../../supabaseClient"; // Import supabase
 
 const ProtectedRoute = ({ children }) => {

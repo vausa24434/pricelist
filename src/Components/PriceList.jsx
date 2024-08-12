@@ -31,7 +31,6 @@ const PriceList = () => {
             },
           }
         );
-        console.log("Response data:", response.data);
         const productsData = response.data.data;
 
         // Save data to Supabase

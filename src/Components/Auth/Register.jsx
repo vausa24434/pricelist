@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { supabase } from "../../supabaseClient";
+import { supabase } from "../../../supabaseClient";
 
 export default function Register() {
   const [activeSlide, setActiveSlide] = useState(0);
@@ -56,8 +56,6 @@ export default function Register() {
         password,
       });
 
-
-
       if (authError) {
         setError(authError.message);
       } else {
@@ -82,9 +80,9 @@ export default function Register() {
   }
 
   const slides = [
-    "/images/tutor-1.png",
-    "/images/tutor-2.png",
-    "/images/tutor-3.png",
+    "/images/logo-muvausa-store.webp",
+    "/images/logo-muvausa-store.webp",
+    "/images/logo-muvausa-store.webp",
   ];
 
   const handlePrevSlide = () => {

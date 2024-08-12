@@ -1,28 +1,15 @@
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import './App.css';
 import UpdatePriceList from "./Pages/UpdatePriceList";
 import UpdatePriceListLocal from "./Pages/UpdatePriceListLocal";
-import PriceList from "./Pages/PriceList";
-import PriceListLocal from "./Pages/PriceListLocal";
 import Login from './Pages/Login';
 import Register from './Pages/Register';
 import ProtectedRoute from './Pages/ProtectedRoute';
-import { AuthProvider } from './Components/AuthProvider';
+import { AuthProvider } from './Components/Auth/AuthProvider';
 import { useState, useEffect } from 'react';
+import Pencarian from './Pages/Search';
+import SearchLocalPage from './Pages/SearchLocal';
+import ProductPage from './Pages/Product';
 
 function App() {
   const [token, setToken] = useState(false)
@@ -40,11 +27,14 @@ function App() {
     <AuthProvider>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<PriceList token={token} />} />
+          <Route path="/" element={<Pencarian token={token} />} />
           <Route path="/login" element={<Login setToken={setToken} />} />
-          <Route path="/local" element={<PriceListLocal />} />
-          <Route path="/update-price-list-local" element={<UpdatePriceListLocal />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/product/:id" element={<ProductPage />} />
+          <Route path="/search" element={<Pencarian />} />
+          <Route path="/searchlocal" element={<SearchLocalPage />} />
+          <Route path="/update-price-list-local" element={<UpdatePriceListLocal />} /> 
+          <Route path="/local" element={<SearchLocalPage />} />
           <Route path="/update" element={<ProtectedRoute><UpdatePriceList /></ProtectedRoute>} />
         </Routes>
       </BrowserRouter>
