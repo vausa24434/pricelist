@@ -31,7 +31,8 @@ dist-ssr
 *.sw?
 
 # Custom components files to ignore
-/src/Components/Product/ProductLocal.jsx
-/src/Components/Search/SearchLocal.jsx
-/src/Components/PriceListLocal.jsx
-/src/Components/UpdatePriceListLocal.jsx
+# git rm --cached /src/Components/PriceListLocal.jsx
+# src/Components/Product/ProductLocal.jsx
+# src/Components/Search/SearchLocal.jsx
+# src/Components/PriceListLocal.jsx
+# src/Components/UpdatePriceListLocal.jsx
