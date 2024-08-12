@@ -37,20 +37,24 @@ const SearchLocal = () => {
         const sign = process.env.VITE_SIGN;
 
         // Fetch data from external API
-        const response = await axios.post(
-          "/api/price-list",
-          {
-            cmd: "prepaid",
-            username: username,
-            code: "",
-            sign: sign,
-          },
-          {
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
+        // const response = await axios.post(
+        //   "/api/price-list",
+        //   {
+        //     cmd: "prepaid",
+        //     username: username,
+        //     code: "",
+        //     sign: sign,
+        //   },
+        //   {
+        //     headers: {
+        //       "Content-Type": "application/json",
+        //     },
+        //   }
+        // );
+        const response = await axios.post('/api/price-list', {
+          cmd: 'prepaid',
+          code: '', // Atau parameter lain yang dibutuhkan
+        });
 
         const productsData = response.data.data;
 
