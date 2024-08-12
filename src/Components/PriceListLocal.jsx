@@ -17,9 +17,9 @@ const PriceListLocal = () => {
           "http://localhost:3001/price-list",
           {
             cmd: "prepaid",
-            username: process.env.VITE_REACT_APP_USERNAME,
+            username: process.env.VITE_USERNAME,
             code: "",
-            sign: process.env.VITE_REACT_APP_SIGN,
+            sign: process.env.VITE_SIGN,
           },
           {
             headers: {

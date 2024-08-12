@@ -9,8 +9,8 @@ const UpdatePriceList = () => {
   useEffect(() => {
     const fetchPriceList = async () => {
       try {
-        const username = process.env.VITE_REACT_APP_USERNAME;
-        const sign = process.env.VITE_REACT_APP_SIGN;
+        const username = process.env.VITE_USERNAME;
+        const sign = process.env.VITE_SIGN;
 
         const response = await axios.post(
           "/api/price-list",
