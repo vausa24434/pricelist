@@ -1,10 +1,17 @@
 import axios from 'axios';
+import { createClient } from '@supabase/supabase-js';
+
+const supabaseUrl = process.env.SUPABASE_URL;
+const supabaseKey = process.env.SUPABASE_KEY;
+
+// Buat client Supabase
+export const supabase = createClient(supabaseUrl, supabaseKey);
 
 export default async function handler(req, res) {
   if (req.method === 'POST') {
     try {
       // Ambil data username dan sign dari environment variables
-      const { VITE_USERNAME, VITE_SIGN, VITE_API_URL } = process.env;
+      const { VITE_USERNAME, VITE_SIGN, VITE_API_URL} = process.env;
 
       // Gabungkan data yang diterima dari request dengan data tambahan
       const requestData = {
