@@ -9,6 +9,7 @@ import { useState, useEffect } from 'react';
 import Pencarian from './Pages/Search';
 import SearchLocalPage from './Pages/SearchLocal';
 import ProductPage from './Pages/Product';
+import ProductLocalPage from './Pages/ProductLocal';
 
 function App() {
   const [token, setToken] = useState(false)
@@ -33,6 +34,7 @@ function App() {
           <Route path="/searchlocal" element={<SearchLocalPage />} />
           <Route path="/update-price-list-local" element={<UpdatePriceListLocal />} /> 
           <Route path="/local" element={<SearchLocalPage />} />
+          <Route path="/productlocal/:id" element={<ProductLocalPage />} />
           <Route path="/update" element={<ProtectedRoute><UpdatePriceList setToken={setToken} /></ProtectedRoute>} />
         </Routes>
       </BrowserRouter>

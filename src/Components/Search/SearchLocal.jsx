@@ -33,8 +33,8 @@ const SearchLocal = () => {
         setLoading(true);
 
         // Access environment variables using import.meta.env
-        const username = process.env.VITE_USERNAME;
-        const sign = process.env.VITE_SIGN;
+        const username = import.meta.env.VITE_USERNAME;
+        const sign = import.meta.env.VITE_SIGN;
 
         // Fetch data from external API
         const response = await axios.post(
@@ -250,7 +250,7 @@ const SearchLocal = () => {
                 key={product.id}
                 className="product bg-white shadow-lg rounded-lg overflow-hidden p-2"
               >
-                <Link to={`/product/${product.id}`}>
+                <Link to={`/productlocal/${product.id}`}>
                   <img
                     className="w-full h-36 sm:h-48 md:h-64 border-b border-black pb-2 mb-2 object-cover object-center"
                     src={product.image_url || "/images/logo-muvausa-store.webp"}
