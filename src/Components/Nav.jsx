@@ -53,7 +53,10 @@ export default function Nav() {
     <>
       <nav className="fixed w-full bg-utama z-50">
         <div className="flex mx-0 sm:mx-20 justify-between items-center p-4">
-          <a onClick={() => navigate("/")} className="text-2xl text-white font-bold cursor-pointer">Muvausa Store</a>
+          <div className="flex items-center space-x-4">
+            <img className="w-12 h-12 overflow-hidden rounded-full object-cover" src="/images/logo-muvausa-store.webp" alt="" />
+            <a onClick={() => navigate("/")} className="text-2xl text-white font-bold cursor-pointer">Muvausa Store</a>
+          </div>
 
           <div className="hidden items-center justify-between hidden w-full md:flex md:w-auto md:order-1" id="navbar-sticky">
             <ul className="flex flex-col gap-x-1 p-4 md:p-0 mt-4 font-medium border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-utama">
