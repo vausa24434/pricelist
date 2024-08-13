@@ -354,13 +354,13 @@ const SearchBar = ({ initialName = '', onSearch, categories, brands, types }) =>
             value={searchName}
             onChange={handleInputChange}
             placeholder="Cari produk..."
-            className="w-full text-xs md:text-base bg-white border-t border-b border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50 px-2 md:px-4 py-2 transition duration-300 ease-in-out shadow-sm"
+            className="w-full text-xs md:text-base bg-white  border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50 px-2 md:px-4 py-2 transition duration-300 ease-in-out shadow-sm"
           />
           <button
             type="submit"
             className="text-xs md:text-base bg-blue-500 text-white px-2 md:px-4 py-2 rounded-r-lg hover:bg-blue-600 transition duration-300 ease-in-out shadow-md"
           >
-            <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+              <svg className="w-4 h-4 md:w-6 md:h-6 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
               <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
             </svg>
             <span class="sr-only">Search</span>
