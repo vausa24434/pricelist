@@ -10,7 +10,6 @@ import Pencarian from './Pages/Search';
 import SearchLocalPage from './Pages/SearchLocal';
 import ProductPage from './Pages/Product';
 import ProductLocalPage from './Pages/ProductLocal';
-import QRISDinamisToStatis from './Pages/QRISDinamisToStatis';
 
 
 function App() {
@@ -38,7 +37,6 @@ function App() {
           <Route path="/local" element={<SearchLocalPage />} />
           <Route path="/productlocal/:id" element={<ProductLocalPage />} />
           <Route path="/update" element={<ProtectedRoute><UpdatePriceList setToken={setToken} /></ProtectedRoute>} />
-          <Route path="/qris" element={<QRISDinamisToStatis />} />
         </Routes>
       </BrowserRouter>
     </AuthProvider>
