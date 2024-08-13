@@ -684,7 +684,7 @@ const SearchLocal = () => {
               key={product.id}
               className="product bg-white shadow-lg rounded-lg overflow-hidden p-2"
             >
-              <Link to={`/productlocal/${product.id}`}>
+              <Link to={`/product/${product.id}`}>
                 <img
                   className="w-full h-36 sm:h-48 md:h-64 border-b border-black pb-2 mb-2 object-cover object-center"
                   src={product.image_url || "/images/logo-muvausa-store.webp"}
