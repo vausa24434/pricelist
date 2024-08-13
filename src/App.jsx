@@ -6,7 +6,7 @@ import Login from './Pages/Login';
 import ProtectedRoute from './Pages/ProtectedRoute';
 import { AuthProvider } from './Components/Auth/AuthProvider';
 import { useState, useEffect } from 'react';
-import Pencarian from './Pages/Search';
+import SearchPage from './Pages/Search';
 import SearchLocalPage from './Pages/SearchLocal';
 import ProductPage from './Pages/Product';
 import ProductLocalPage from './Pages/ProductLocal';
@@ -28,10 +28,10 @@ function App() {
     <AuthProvider>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Pencarian token={token} />} />
+          <Route path="/" element={<SearchPage token={token} />} />
           <Route path="/login" element={<Login setToken={setToken} />} />
           <Route path="/product/:id" element={<ProductPage />} />
-          <Route path="/search" element={<Pencarian />} />
+          <Route path="/search" element={<SearchPage />} />
           <Route path="/searchlocal" element={<SearchLocalPage />} />
           <Route path="/update-price-list-local" element={<UpdatePriceListLocal />} /> 
           <Route path="/local" element={<SearchLocalPage />} />

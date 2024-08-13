@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useRef } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 
@@ -54,14 +53,14 @@ export default function Nav() {
       <nav className="fixed w-full bg-utama z-50">
         <div className="flex mx-0 sm:mx-20 justify-between items-center p-4">
           <div className="flex items-center space-x-4">
-            <img className="w-12 h-12 overflow-hidden rounded-full object-cover" src="/images/logo-muvausa-store.webp" alt="" />
-            <a onClick={() => navigate("/")} className="text-2xl text-white font-bold cursor-pointer">Muvausa Store</a>
+            <img className="w-8 h-8 md:w-12 md:h-12 overflow-hidden rounded-full object-cover" src="/images/logo-muvausa-store.webp" alt="" />
+            <a onClick={() => navigate("/")} className="text-lg md:text-2xl text-white font-bold cursor-pointer">Muvausa Store</a>
           </div>
 
           <div className="hidden items-center justify-between hidden w-full md:flex md:w-auto md:order-1" id="navbar-sticky">
             <ul className="flex flex-col gap-x-1 p-4 md:p-0 mt-4 font-medium border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-utama">
               <li>
-                <NavLink className={({ isActive }) => (isActive ? activeLink : nonActiveLink)} to='#'>About Us</NavLink>
+                <NavLink className={({ isActive }) => (isActive ? activeLink : nonActiveLink)} to='#'>Home</NavLink>
               </li>
             </ul>
           </div>
@@ -93,7 +92,7 @@ export default function Nav() {
                   <h2 className="text-xl font-bold">Menu</h2>
                   <ul className="mt-4">
                     <li>
-                      <NavLink className={({ isActive }) => (isActive ? 'block py-2 px-4 bg-gray-700 rounded' : 'block py-2 px-4 hover:bg-gray-700 rounded')} to='#'>About Us</NavLink>
+                      <NavLink className={({ isActive }) => (isActive ? 'block py-2 px-4 bg-gray-700 rounded' : 'block py-2 px-4 hover:bg-gray-700 rounded')} to='#'>Home</NavLink>
                     </li>
                   </ul>
                 </div>

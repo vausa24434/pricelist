@@ -33,10 +33,6 @@ const SearchLocal = () => {
       try {
         setLoading(true);
 
-        // Access environment variables using process.env
-        const username = process.env.VITE_USERNAME;
-        const sign = process.env.VITE_SIGN;
-
         // Fetch data from external API
         const response = await axios.post(
           "http://localhost:3001/price-list",
@@ -278,7 +274,7 @@ const SearchLocal = () => {
   };
 
   return (
-    <div className="bg-bg_utama py-6 px-4 md:px-24 min-h-screen">
+    <div className="bg-bg_utama min-h-screen">
       <SearchBar
         initialName={searchName}
         onSearch={({ name, category, brand, type }) => {
@@ -308,7 +304,7 @@ const SearchLocal = () => {
               key={product.id}
               className="product bg-white shadow-lg rounded-lg overflow-hidden p-2"
             >
-              <Link to={`/productlocal/${product.id}`}>
+              <Link to={`/product/${product.id}`}>
                 <img
                   className="w-full h-36 sm:h-48 md:h-64 border-b border-black pb-2 mb-2 object-cover object-center"
                   src={product.image_url || "/images/logo-muvausa-store.webp"}
