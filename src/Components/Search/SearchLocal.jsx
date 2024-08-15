@@ -34,6 +34,9 @@ const SearchLocal = () => {
         setLoading(true);
 
         // Fetch data from external API
+        const username = import.meta.env.VITE_USERNAME;
+        const sign = import.meta.env.VITE_SIGN;
+
         const response = await axios.post(
           "http://localhost:3001/price-list",
           {
@@ -88,7 +91,7 @@ const SearchLocal = () => {
     try {
       const { data, error } = await supabase
         .from('price_list')
-        .select('category')
+        .select('category, category_image')
         .neq('category', '')
         .order('category', { ascending: true });
 
@@ -98,7 +101,10 @@ const SearchLocal = () => {
         return;
       }
 
-      const uniqueCategories = Array.from(new Set(data.map(item => item.category)));
+      const uniqueCategories = Array.from(new Set(data.map(item => ({
+        name: item.category,
+        imageUrl: item.category_image || '/images/logo-muvausa-store.webp',
+      }))));
       setCategories(uniqueCategories);
     } catch (err) {
       console.error('Error:', err);
@@ -115,7 +121,7 @@ const SearchLocal = () => {
     try {
       const { data, error } = await supabase
         .from('price_list')
-        .select('brand')
+        .select('brand, brand_image')
         .eq('category', selectedCategory)
         .neq('brand', '')
         .order('brand', { ascending: true });
@@ -126,7 +132,10 @@ const SearchLocal = () => {
         return;
       }
 
-      const uniqueBrands = Array.from(new Set(data.map(item => item.brand)));
+      const uniqueBrands = Array.from(new Set(data.map(item => ({
+        name: item.brand,
+        imageUrl: item.brand_image || '/images/logo-muvausa-store.webp',
+      }))));
       setBrands(uniqueBrands);
     } catch (err) {
       console.error('Error:', err);
@@ -165,7 +174,6 @@ const SearchLocal = () => {
 
   const saveProductsToSupabase = async (products) => {
     try {
-      // Hapus duplikat berdasarkan product_name
       const uniqueProducts = products.reduce((acc, current) => {
         const x = acc.find(item => item.product_name === current.product_name);
         if (!x) {
@@ -196,10 +204,8 @@ const SearchLocal = () => {
     setLoading(true);
     setError(null);
 
-    // Fetch total count first
     let countQuery = supabase.from('price_list').select('*', { count: 'exact' });
 
-    // Apply filters to the count query
     if (searchName) {
       countQuery = countQuery.ilike('product_name', `%${searchName}%`);
     }
@@ -225,10 +231,8 @@ const SearchLocal = () => {
     const totalPageCount = Math.ceil(totalCount / productsPerPage);
     setTotalPages(totalPageCount);
 
-    // Fetch paginated products
     let query = supabase.from('price_list').select('*');
 
-    // Apply filters to the query
     if (searchName) {
       query = query.ilike('product_name', `%${searchName}%`);
     }
@@ -242,10 +246,8 @@ const SearchLocal = () => {
       query = query.eq('type', selectedType);
     }
 
-    // Order products by creation date in descending order
     query = query.order('created_at', { ascending: false });
 
-    // Pagination
     const from = (currentPage - 1) * productsPerPage;
     const to = from + productsPerPage - 1;
     query = query.range(from, to);
@@ -261,10 +263,8 @@ const SearchLocal = () => {
     setLoading(false);
   };
 
-  // Calculate the number of products found
   const productsCount = products.length;
 
-  // Function to generate page numbers for pagination
   const generatePageNumbers = () => {
     const pageNumbers = [];
     for (let i = 1; i <= totalPages; i++) {
@@ -304,7 +304,9 @@ const SearchLocal = () => {
               key={product.id}
               className="product bg-white shadow-lg rounded-lg overflow-hidden p-2"
             >
-              <Link to={`/product/${product.id}`}>
+<Link 
+  to={`/productlocal/${product.id}?category=${selectedCategory}&brand=${selectedBrand}&type=${selectedType}`}
+>
                 <img
                   className="w-full h-36 sm:h-48 md:h-64 border-b border-black pb-2 mb-2 object-cover object-center"
                   src={product.image_url || "/images/logo-muvausa-store.webp"}
@@ -337,10 +339,8 @@ const SearchLocal = () => {
         <div className="text-center">Tidak ada produk yang ditemukan.</div>
       )}
 
-
       <div className="flex flex-col items-center my-16 space-y-2">
         <div className="flex flex-wrap items-center justify-center space-x-2 overflow-x-auto scrollbar-hide">
-          {/* Halaman Awal */}
           {currentPage > 7 && (
             <>
               {Array.from({ length: 3 }, (_, i) => i + 1).map((page) => (
@@ -358,8 +358,6 @@ const SearchLocal = () => {
               <span className="text-gray-400">...</span>
             </>
           )}
-
-          {/* Halaman Terdekat */}
           {generatePageNumbers().map((page) => {
             if (
               (page >= currentPage - 3 && page <= currentPage + 3) ||
@@ -381,8 +379,6 @@ const SearchLocal = () => {
             }
             return null;
           })}
-
-          {/* Halaman Akhir */}
           {currentPage < totalPages - 6 && (
             <>
               <span className="text-gray-400">...</span>
@@ -402,8 +398,6 @@ const SearchLocal = () => {
           )}
         </div>
       </div>
-
-
     </div>
   );
 };

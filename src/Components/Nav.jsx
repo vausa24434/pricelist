@@ -57,11 +57,24 @@ export default function Nav() {
             <a onClick={() => navigate("/")} className="text-lg md:text-2xl text-white font-bold cursor-pointer">Muvausa Store</a>
           </div>
 
+          <div className="hidden md:block space-x-16">
+            <a onClick={() => navigate("/")} className="text-xl text-white font-normal cursor-pointer">Home </a>
+            <a onClick={() => navigate("/")} className="text-xl text-white font-normal cursor-pointer">Home </a>
+            <a onClick={() => navigate("/")} className="text-xl text-white font-normal cursor-pointer">Home </a>
+            <a onClick={() => navigate("/")} className="text-xl text-white font-normal cursor-pointer">Home </a>
+          </div>
+
           <div className="hidden items-center justify-between hidden w-full md:flex md:w-auto md:order-1" id="navbar-sticky">
             <ul className="flex flex-col gap-x-1 p-4 md:p-0 mt-4 font-medium border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-utama">
-              <li>
-                <NavLink className={({ isActive }) => (isActive ? activeLink : nonActiveLink)} to='#'>Home</NavLink>
-              </li>
+            <li>
+  <NavLink className={({ isActive }) => (isActive ? activeLink : nonActiveLink)} to="#">
+  <svg className="w-8 h-8 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+  <path fillRule="evenodd" d="M11.293 3.293a1 1 0 0 1 1.414 0l6 6 2 2a1 1 0 0 1-1.414 1.414L19 12.414V19a2 2 0 0 1-2 2h-3a1 1 0 0 1-1-1v-3h-2v3a1 1 0 0 1-1 1H7a2 2 0 0 1-2-2v-6.586l-.293.293a1 1 0 0 1-1.414-1.414l2-2 6-6Z" clipRule="evenodd"/>
+</svg>
+
+  </NavLink>
+</li>
+
             </ul>
           </div>
 
