@@ -7,7 +7,23 @@ const SearchBar = ({ initialName = '', onSearch, categories, brands, types }) =>
   const [selectedBrand, setSelectedBrand] = useState(null);
   const [selectedType, setSelectedType] = useState(null);
   const [isPopupVisible, setIsPopupVisible] = useState(false);
+  const [isCategoryActive, setIsCategoryActive] = useState(false);
+  const [isBrandActive, setIsBrandActive] = useState(false);
+  const [isTypeActive, setIsTypeActive] = useState(false);
   const popupRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (popupRef.current && !popupRef.current.contains(event.target)) {
+        setIsPopupVisible(false);
+      }
+    };
+    
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
 
   const handleInputChange = (event) => {
     setSearchName(event.target.value);
@@ -27,6 +43,7 @@ const SearchBar = ({ initialName = '', onSearch, categories, brands, types }) =>
     setSelectedCategory(selectedOption);
     setSelectedBrand(null); // Reset brand when category is changed
     setSelectedType(null);  // Reset type when category is changed
+    setIsCategoryActive(false); // Close dropdown after selection
     onSearch({
       name: searchName,
       category: selectedOption ? selectedOption.value : '',
@@ -38,6 +55,7 @@ const SearchBar = ({ initialName = '', onSearch, categories, brands, types }) =>
   const handleBrandChange = (selectedOption) => {
     setSelectedBrand(selectedOption);
     setSelectedType(null); // Reset type when brand is changed
+    setIsBrandActive(false); // Close dropdown after selection
     onSearch({
       name: searchName,
       category: selectedCategory ? selectedCategory.value : '',
@@ -48,6 +66,7 @@ const SearchBar = ({ initialName = '', onSearch, categories, brands, types }) =>
 
   const handleTypeChange = (selectedOption) => {
     setSelectedType(selectedOption);
+    setIsTypeActive(false); // Close dropdown after selection
     onSearch({
       name: searchName,
       category: selectedCategory ? selectedCategory.value : '',
@@ -89,24 +108,11 @@ const SearchBar = ({ initialName = '', onSearch, categories, brands, types }) =>
     imageUrl: '/images/logo-muvausa-store.webp' // Use a default image for types
   }));
 
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (popupRef.current && !popupRef.current.contains(event.target)) {
-        setIsPopupVisible(false);
-      }
-    };
-    
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, []);
-
   return (
     <div className="sticky top-[64px] z-40 mb-4 px-4 pb-4 md:pt-4 bg-utama shadow-lg">
       <form
         onSubmit={handleSubmit}
-        className="md:mx-20 flex flex-col md:flex-row items-center"
+        className="md:mx-20 flex flex-col md:flex-row items-center "
       >
         <div className="relative w-full flex items-center">
           <button
@@ -148,7 +154,9 @@ const SearchBar = ({ initialName = '', onSearch, categories, brands, types }) =>
           <div className="absolute top-full left-0 w-full z-50 md:px-24">
             <div ref={popupRef} className="p-4 border bg-white border-gray-300 shadow-lg rounded-lg w-full z-50">
               <Select
-                value={selectedCategory}
+                value={isCategoryActive ? null : selectedCategory}
+                onMenuOpen={() => setIsCategoryActive(true)}
+                onMenuClose={() => setIsCategoryActive(false)}
                 onChange={handleCategoryChange}
                 options={categoryOptions}
                 isClearable
@@ -173,7 +181,9 @@ const SearchBar = ({ initialName = '', onSearch, categories, brands, types }) =>
               />
 
               <Select
-                value={selectedBrand}
+                value={isBrandActive ? null : selectedBrand}
+                onMenuOpen={() => setIsBrandActive(true)}
+                onMenuClose={() => setIsBrandActive(false)}
                 onChange={handleBrandChange}
                 options={brandOptions}
                 isClearable
@@ -198,11 +208,13 @@ const SearchBar = ({ initialName = '', onSearch, categories, brands, types }) =>
               />
 
               <Select
-                value={selectedType}
+                value={isTypeActive ? null : selectedType}
+                onMenuOpen={() => setIsTypeActive(true)}
+                onMenuClose={() => setIsTypeActive(false)}
                 onChange={handleTypeChange}
                 options={typeOptions}
                 isClearable
-                placeholder="Cari tipe . . ."
+                placeholder="Cari type . . ."
                 className="text-xs md:text-lg mb-2 md:py-1"
                 formatOptionLabel={formatOptionLabel}
                 styles={{
