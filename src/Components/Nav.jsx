@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
+import SearchBar from './Search/SearchBar';
 
 export default function Nav() {
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -58,10 +59,11 @@ export default function Nav() {
           </div>
 
           <div className="hidden md:block space-x-16">
-            <a onClick={() => navigate("/")} className="text-xl text-white font-normal cursor-pointer">Home </a>
-            <a onClick={() => navigate("/")} className="text-xl text-white font-normal cursor-pointer">Home </a>
-            <a onClick={() => navigate("/")} className="text-xl text-white font-normal cursor-pointer">Home </a>
-            <a onClick={() => navigate("/")} className="text-xl text-white font-normal cursor-pointer">Home </a>
+            <a onClick={() => navigate("/home")} className="text-xl text-white font-normal cursor-pointer">Home </a>
+            <a onClick={() => navigate("/home")} className="text-xl text-white font-normal cursor-pointer">Home </a>
+            <a onClick={() => navigate("/home")} className="text-xl text-white font-normal cursor-pointer">Home </a>
+            <a onClick={() => navigate("/home")} className="text-xl text-white font-normal cursor-pointer">Home </a>
+            
           </div>
 
           <div className="hidden items-center justify-between hidden w-full md:flex md:w-auto md:order-1" id="navbar-sticky">
@@ -105,7 +107,8 @@ export default function Nav() {
                   <h2 className="text-xl font-bold">Menu</h2>
                   <ul className="mt-4">
                     <li>
-                      <NavLink className={({ isActive }) => (isActive ? 'block py-2 px-4 bg-gray-700 rounded' : 'block py-2 px-4 hover:bg-gray-700 rounded')} to='#'>Home</NavLink>
+                      <NavLink className={({ isActive }) => (isActive ? 'block py-2 px-4 bg-gray-700 rounded' : 'block py-2 px-4 hover:bg-gray-700 rounded')} to='/'>Home</NavLink>
+                      <NavLink className={({ isActive }) => (isActive ? 'block py-2 px-4 bg-gray-700 rounded' : 'block py-2 px-4 hover:bg-gray-700 rounded')} to='/deposit'>Deposit</NavLink>
                     </li>
                   </ul>
                 </div>

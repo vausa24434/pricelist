@@ -18,6 +18,7 @@ dist-ssr
 # Local environment files
 *.local
 .env
+generateSignature.cjs
 
 # Editor directories and files
 .vscode/*

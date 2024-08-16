@@ -6,6 +6,8 @@ import SearchBar from './SearchBar';
 
 const SearchLocal = () => {
   const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+
   const { searchTerm = '', category = '' } = location.state || {};
 
   const [products, setProducts] = useState([]);
@@ -19,7 +21,7 @@ const SearchLocal = () => {
 
   // State for search parameters
   const [searchName, setSearchName] = useState(searchTerm || '');
-  const [selectedCategory, setSelectedCategory] = useState(category || '');
+  const [selectedCategory, setSelectedCategory] = useState( queryParams.get('category') || category || '');
   const [selectedBrand, setSelectedBrand] = useState('');
   const [selectedType, setSelectedType] = useState('');
 
@@ -287,6 +289,13 @@ const SearchLocal = () => {
         brands={brands}
         types={types}
       />
+      {/* <Home
+  onCategorySelect={({ category }) => {
+    setSelectedCategory(category);
+    // Lakukan aksi lain dengan kategori terpilih
+  }}
+/> */}
+
       <div className="text-center mb-8">
         <h1 className="text-xl md:text-2xl font-bold">
           Hasil Pencarian

@@ -1,6 +1,6 @@
 import Login from "../Components/Auth/Login";
 
-export default function Menu() {
+export default function LoginPage() {
     return (
       <>
           <Login />
