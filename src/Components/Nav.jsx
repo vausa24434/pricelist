@@ -108,7 +108,6 @@ export default function Nav() {
                   <ul className="mt-4">
                     <li>
                       <NavLink className={({ isActive }) => (isActive ? 'block py-2 px-4 bg-gray-700 rounded' : 'block py-2 px-4 hover:bg-gray-700 rounded')} to='/'>Home</NavLink>
-                      <NavLink className={({ isActive }) => (isActive ? 'block py-2 px-4 bg-gray-700 rounded' : 'block py-2 px-4 hover:bg-gray-700 rounded')} to='/deposit'>Deposit</NavLink>
                     </li>
                   </ul>
                 </div>
