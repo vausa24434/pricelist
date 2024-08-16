@@ -36,8 +36,8 @@ const SearchLocal = () => {
         setLoading(true);
 
         // Fetch data from external API
-        const username = import.meta.env.VITE_USERNAME;
-        const sign = import.meta.env.VITE_SIGN;
+        const username = process.env.VITE_USERNAME;
+        const sign = process.env.VITE_SIGN;
 
         const response = await axios.post(
           "http://localhost:3001/price-list",

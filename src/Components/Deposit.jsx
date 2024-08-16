@@ -9,9 +9,9 @@ const Deposit = () => {
   const [error, setError] = useState(null);
 
   // Detail yang Anda berikan
-  const apiUrl = import.meta.env.VITE_API_URL_D;
-  const username = import.meta.env.VITE_USERNAME;
-  const sign = import.meta.env.VITE_SIGN_D;
+  const apiUrl = process.env.VITE_API_URL_D;
+  const username = process.env.VITE_USERNAME;
+  const sign = process.env.VITE_SIGN_D;
 
   const handleDeposit = async () => {
     const data = {
@@ -91,3 +91,33 @@ const Deposit = () => {
 };
 
 export default Deposit;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
