@@ -20,12 +20,12 @@ export default function Hero() {
   };
 
   return (
-    <div className="relative w-full overflow-hidden">
+    <div className="bg-gray-100 relative w-full overflow-hidden">
       <div className="flex transition-transform duration-700 ease-in-out" style={{ transform: `translateX(-${currentIndex * 100}%)` }}>
         {images.map((image, index) => (
           <div
             key={index}
-            className="relative w-full flex-shrink-0"
+            className="relative w-full flex-shrink-0 py-2 px-6 md:py-10 md:px-20"
           >
             <img
               src={image}

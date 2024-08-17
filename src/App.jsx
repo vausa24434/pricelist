@@ -31,9 +31,10 @@ function App() {
           <Route path="/login" element={<Login setToken={setToken} />} />
           <Route path="/product/:id" element={<ProductPage />} />
           <Route path="/search" element={<SearchPage />} />
+          <Route path="/searchlocal" element={<SearchLocalPage />} />
           <Route path="/home" element={<HomePage />} />
           <Route path="/local/:category/:brand/:type" element={<SearchLocalPage />} />
-          <Route path="/update-price-list-local" element={<UpdatePriceListLocal />} /> 
+          <Route path="/updatelocal" element={<UpdatePriceListLocal />} /> 
           <Route path="/local" element={<SearchLocalPage />} />
           <Route path="/productlocal/:id" element={<ProductLocalPage />} />
           <Route path="/update" element={<ProtectedRoute><UpdatePriceList setToken={setToken} /></ProtectedRoute>} />

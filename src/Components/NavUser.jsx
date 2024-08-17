@@ -121,7 +121,7 @@ const Nav = () => {
             <nav className="fixed w-full bg-utama z-50">
                 <div className="flex mx-0 sm:mx-20 justify-between items-center p-4">
                     <div className="flex items-center space-x-4">
-                        <img className="w-12 h-12 overflow-hidden rounded-full object-cover" src="/images/logo-muvausa-store.webp" alt="" />
+                        <img className="w-8 h-8 md:w-12 md:h-12 overflow-hidden rounded-full object-cover" src="/images/logo-muvausa-store.webp" alt="" />
                         <a onClick={() => navigate("/")} className="text-2xl text-white font-bold cursor-pointer">Muvausa Store</a>
                     </div>
 
@@ -132,6 +132,9 @@ const Nav = () => {
                             </li>
                             <li>
                                 <NavLink className={({ isActive }) => (isActive ? activeLink : nonActiveLink)} to='/update'>Update</NavLink>
+                            </li>
+                            <li>
+                                <NavLink className={({ isActive }) => (isActive ? activeLink : nonActiveLink)} to='/updatelocal'>Update Local</NavLink>
                             </li>
                             <li>
                                 <NavLink className={({ isActive }) => (isActive ? activeLink : nonActiveLink)} to='/search'>Search</NavLink>
@@ -246,6 +249,9 @@ const Nav = () => {
                                         </li>
                                         <li>
                                             <NavLink className={({ isActive }) => (isActive ? 'block py-2 px-4 bg-gray-700 rounded' : 'block py-2 px-4 hover:bg-gray-700 rounded')} to='/update'>Update</NavLink>
+                                        </li>
+                                        <li>
+                                            <NavLink className={({ isActive }) => (isActive ? 'block py-2 px-4 bg-gray-700 rounded' : 'block py-2 px-4 hover:bg-gray-700 rounded')} to='/updatelocal'>Update Local</NavLink>
                                         </li>
                                         <li>
                                             <NavLink className={({ isActive }) => (isActive ? 'block py-2 px-4 bg-gray-700 rounded' : 'block py-2 px-4 hover:bg-gray-700 rounded')} to='/search'>Search</NavLink>
