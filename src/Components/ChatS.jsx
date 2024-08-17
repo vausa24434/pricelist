@@ -9,7 +9,7 @@ function JabberClient() {
 
   useEffect(() => {
     const xmppClient = client({
-      service: 'wss://jabbim.com:5281/xmpp-websocket', // URL WebSocket server pengirim
+      service: 'https://jabbim.com/http-bind', // URL WebSocket server pengirim
       domain: 'jabbim.com', // Domain server pengirim
       resource: 'react-client', // Nama resource (bebas)
       username: 'iwak',
