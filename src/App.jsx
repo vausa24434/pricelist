@@ -37,6 +37,7 @@ function App() {
           <Route path="/local" element={<SearchLocalPage />} />
           <Route path="/productlocal/:id" element={<ProductLocalPage />} />
           <Route path="/update" element={<ProtectedRoute><UpdatePriceList setToken={setToken} /></ProtectedRoute>} />
+
         </Routes>
       </BrowserRouter>
     </AuthProvider>

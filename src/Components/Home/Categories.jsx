@@ -41,7 +41,7 @@ const Categories = ({ onCategorySelect }) => {
     if (onCategorySelect) {
       onCategorySelect({ category });
     }
-    navigate(`/?category=${encodeURIComponent(category)}`);
+    navigate(`/local/?category=${encodeURIComponent(category)}`);
   };
 
   // Divide categories into two rows
