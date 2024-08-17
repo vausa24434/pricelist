@@ -1,63 +1,83 @@
 import React, { useEffect, useState } from 'react';
-import { $msg, Strophe } from 'strophe.js';
+import { client } from '@xmpp/client';
+import xml from '@xmpp/xml';
 
-const ChatS = () => {
-  const [connection, setConnection] = useState(null);
-  const [status, setStatus] = useState('Connecting...');
-  const BOSH_SERVICE = 'https://muvausastore.vercel.app/http-bind/';
+function JabberClient() {
+  const [isConnected, setIsConnected] = useState(false);
+  const [messageToSend, setMessageToSend] = useState('');
+  const [messages, setMessages] = useState([]);
 
   useEffect(() => {
-    const conn = new Strophe.Connection(BOSH_SERVICE);
-    setConnection(conn);
+    const xmppClient = client({
+      service: 'wss://jabbim.com:5281/xmpp-websocket', // URL WebSocket server pengirim
+      domain: 'jabbim.com', // Domain server pengirim
+      resource: 'react-client', // Nama resource (bebas)
+      username: 'iwak',
+      password: 'Doltopup1', // Password akun pengirim
+    });
 
-    conn.connect('iwak@jabbim.com', 'Doltopup1', (status) => {
-      if (status === Strophe.Status.CONNECTING) {
-        setStatus('Connecting...');
-      } else if (status === Strophe.Status.CONNFAIL) {
-        setStatus('Failed to connect.');
-      } else if (status === Strophe.Status.AUTHFAIL) {
-        setStatus('Authentication failed.');
-      } else if (status === Strophe.Status.CONNECTED) {
-        setStatus('Connected!');
-        conn.send($pres().tree()); // Mengirim presence setelah terhubung
+    xmppClient.on('online', (address) => {
+      console.log(`Connected as ${address}`);
+      setIsConnected(true);
+    });
 
-        // Menangani pesan masuk
-        conn.addHandler((message) => {
-          const from = message.getAttribute('from');
-          const body = message.getElementsByTagName('body')[0]?.textContent;
-          console.log(`Pesan dari ${from}: ${body}`);
-          return true;
-        }, null, 'message', 'chat');
-      } else if (status === Strophe.Status.DISCONNECTED) {
-        setStatus('Disconnected.');
+    xmppClient.on('message', (msg) => {
+      const body = msg.getChildText('body');
+      if (body) {
+        setMessages((prevMessages) => [...prevMessages, body]);
       }
     });
 
-    // Membersihkan koneksi saat komponen di-unmount
+    xmppClient.on('error', (err) => {
+      console.error('Connection Error:', err);
+    });
+
+    xmppClient.start().catch(console.error);
+
     return () => {
-      conn.disconnect();
+      xmppClient.stop().catch(console.error);
     };
-  }, [BOSH_SERVICE]);
+  }, []);
 
-  const sendMessage = () => {
-    if (connection) {
-      const message = $msg({
-        to: 'jabber1@digiflazz.net',
-        type: 'chat'
-      }).c('body').t('Halo, ini pesan dari React.js!');
-
-      connection.send(message.tree());
+  const sendMessage = async () => {
+    if (isConnected && messageToSend) {
+      const message = xml(
+        'message',
+        { type: 'chat', to: 'jabber1@digiflazz.net' }, // Tujuan penerima
+        xml('body', {}, messageToSend)
+      );
+      xmppClient.send(message);
+      setMessages((prevMessages) => [...prevMessages, messageToSend]);
+      setMessageToSend('');
     }
   };
 
   return (
     <div>
-      <h1>Status: {status}</h1>
-      <button onClick={sendMessage} disabled={!connection || status !== 'Connected!'}>
-        Kirim Pesan
-      </button>
+      <h1>XMPP Client</h1>
+      {isConnected ? (
+        <div>
+          <p>Connected to Jabber server as iwak@jabbim.com!</p>
+          <div>
+            <input
+              type="text"
+              value={messageToSend}
+              onChange={(e) => setMessageToSend(e.target.value)}
+              placeholder="Type a message"
+            />
+            <button onClick={sendMessage}>Send</button>
+          </div>
+          <ul>
+            {messages.map((message, index) => (
+              <li key={index}>{message}</li>
+            ))}
+          </ul>
+        </div>
+      ) : (
+        <p>Connecting...</p>
+      )}
     </div>
   );
-};
+}
 
-export default ChatS;
+export default JabberClient;
