@@ -289,12 +289,6 @@ const SearchLocal = () => {
         brands={brands}
         types={types}
       />
-      {/* <Home
-  onCategorySelect={({ category }) => {
-    setSelectedCategory(category);
-    // Lakukan aksi lain dengan kategori terpilih
-  }}
-/> */}
 
       <div className="text-center mb-8">
         <h1 className="text-xl md:text-2xl font-bold">
