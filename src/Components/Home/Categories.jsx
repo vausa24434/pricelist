@@ -217,7 +217,7 @@ const Categories = ({ onCategorySelect }) => {
           <div className="overflow-x-auto py-4 md:py-8 scrollable-content">
             <div className="flex flex-col pb-10">
               {/* Top Row */}
-              <div className="flex flex-nowrap gap-12 md:gap-16 mb-16">
+              <div className="flex flex-nowrap gap-12 md:gap-16 mb-14 md:mb-20">
                 {topRow.map((category, index) => (
                   <div
                     key={index}
