@@ -10,6 +10,7 @@ import SearchLocalPage from './Pages/SearchLocal';
 import ProductPage from './Pages/Product';
 import ProductLocalPage from './Pages/ProductLocal';
 import HomePage from './Pages/HomePage';
+import DepositPage from './Pages/Deposit';
 
 function App() {
   const [token, setToken] = useState(false)
@@ -36,7 +37,9 @@ function App() {
           <Route path="/update-price-list-local" element={<UpdatePriceListLocal />} /> 
           <Route path="/local" element={<SearchLocalPage />} />
           <Route path="/productlocal/:id" element={<ProductLocalPage />} />
-          <Route path="/update" element={<ProtectedRoute><UpdatePriceList setToken={setToken} /></ProtectedRoute>} /> </Routes>
+          <Route path="/update" element={<ProtectedRoute><UpdatePriceList setToken={setToken} /></ProtectedRoute>} />
+          <Route path="/deposit" element={<DepositPage />} />
+        </Routes>
       </BrowserRouter>
     </AuthProvider>
   );

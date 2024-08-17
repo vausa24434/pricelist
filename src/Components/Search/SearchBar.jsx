@@ -93,13 +93,13 @@ const SearchBar = ({ initialName = '', onSearch, categories, brands, types }) =>
   const categoryOptions = uniqueCategories.map(({ name, imageUrl }) => ({
     value: name,
     label: name,
-    imageUrl: imageUrl
+    imageUrl: imageUrl || "/images/logo-muvausa-store.webp"
   }));
 
   const brandOptions = uniqueBrands.map(({ name, imageUrl }) => ({
     value: name,
     label: name,
-    imageUrl: imageUrl
+    imageUrl: imageUrl || "/images/logo-muvausa-store.webp"
   }));
 
   const typeOptions = uniqueTypes.map(type => ({

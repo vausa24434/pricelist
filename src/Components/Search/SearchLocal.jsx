@@ -136,7 +136,7 @@ const SearchLocal = () => {
 
       const uniqueBrands = Array.from(new Set(data.map(item => ({
         name: item.brand,
-        imageUrl: item.brand_image || '/images/logo-muvausa-store.webp',
+        imageUrl: item.brand_image || "/images/logo-muvausa-store.webp",
       }))));
       setBrands(uniqueBrands);
     } catch (err) {

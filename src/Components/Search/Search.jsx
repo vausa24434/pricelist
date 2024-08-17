@@ -90,7 +90,7 @@ const Search = () => {
 
       const uniqueCategories = Array.from(new Set(data.map(item => ({
         name: item.category,
-        imageUrl: item.category_image || '/images/logo-muvausa-store.webp',
+        imageUrl: item.category_image || "/images/logo-muvausa-store.webp",
       }))));
       setCategories(uniqueCategories);
     } catch (err) {
