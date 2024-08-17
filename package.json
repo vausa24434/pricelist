@@ -22,6 +22,11 @@
     "react-popper": "^2.3.0",
     "react-router-dom": "^6.23.1",
     "react-select": "^5.8.0",
+<<<<<<< HEAD
+=======
+    "stanza.io": "^10.3.4",
+    "strophe.js": "^3.0.1",
+>>>>>>> eb123c691290ab508881741ca56fd9dd25b4dfaf
     "vite-plugin-node-polyfills": "^0.22.0"
   },
   "devDependencies": {

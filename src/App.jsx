@@ -11,6 +11,7 @@ import SearchLocalPage from './Pages/SearchLocal';
 import ProductPage from './Pages/Product';
 import ProductLocalPage from './Pages/ProductLocal';
 import HomePage from './Pages/HomePage';
+import ChatSPage from './Pages/ChatS';
 
 function App() {
   const [token, setToken] = useState(false)
@@ -38,6 +39,11 @@ function App() {
           <Route path="/local" element={<SearchLocalPage />} />
           <Route path="/productlocal/:id" element={<ProductLocalPage />} />
           <Route path="/update" element={<ProtectedRoute><UpdatePriceList setToken={setToken} /></ProtectedRoute>} />
+<<<<<<< HEAD
+=======
+          <Route path="/chats" element={<ChatSPage />} />
+
+>>>>>>> eb123c691290ab508881741ca56fd9dd25b4dfaf
         </Routes>
       </BrowserRouter>
     </AuthProvider>
