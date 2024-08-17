@@ -162,7 +162,7 @@ export default function Trending() {
                 selectedCategory === category
                   ? 'text-white bg-blue-700 border border-blue-600'
                   : 'text-blue-700 bg-white border border-blue-600 hover:text-white hover:bg-blue-700'
-              } rounded-full text-base font-medium px-5 py-2.5 text-center whitespace-nowrap focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-gray-900 dark:border-gray-900 dark:text-white dark:hover:bg-blue-500 dark:hover:border-blue-500`}
+              } rounded-full text-xs md:text-base font-medium px-3 py-2 md:px-5 md:py-2.5 text-center whitespace-nowrap focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-gray-900 dark:border-gray-900 dark:text-white dark:hover:bg-blue-500 dark:hover:border-blue-500`}
               onClick={() => handleCategoryClick(category)}
             >
               {category}
