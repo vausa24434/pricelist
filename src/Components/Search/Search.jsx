@@ -39,10 +39,6 @@ const SearchLocal = () => {
         setLoading(true);
 
         // Fetch data from external API
-        const username = process.env.VITE_USERNAME;
-        const sign = process.env.VITE_SIGN;
-
-        // Fetch data from external API
         const response = await axios.post('/api/price-list', {
           cmd: 'prepaid',
           code: '', // Atau parameter lain yang dibutuhkan
