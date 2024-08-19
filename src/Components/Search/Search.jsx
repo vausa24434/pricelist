@@ -8,7 +8,10 @@ const SearchLocal = () => {
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
 
-  const { searchTerm = '', category = '' } = location.state || {};
+  const searchTerm = queryParams.get('searchTerm') || '';
+  const category = queryParams.get('category') || '';
+  const brand = queryParams.get('brand') || '';
+  const type = queryParams.get('type') || '';
 
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -20,10 +23,10 @@ const SearchLocal = () => {
   const productsPerPage = 12;
 
   // State for search parameters
-  const [searchName, setSearchName] = useState(searchTerm || '');
-  const [selectedCategory, setSelectedCategory] = useState( queryParams.get('category') || category || '');
-  const [selectedBrand, setSelectedBrand] = useState('');
-  const [selectedType, setSelectedType] = useState('');
+  const [searchName, setSearchName] = useState(searchTerm);
+  const [selectedCategory, setSelectedCategory] = useState(category);
+  const [selectedBrand, setSelectedBrand] = useState(brand);
+  const [selectedType, setSelectedType] = useState(type);
 
   // State for available categories, brands, and types
   const [categories, setCategories] = useState([]);
@@ -83,51 +86,51 @@ const SearchLocal = () => {
   const fetchCategories = async () => {
     try {
       const { data, error } = await supabase
-        .from('price_list')
-        .select('category, category_image')
-        .neq('category', '')
-        .order('category', { ascending: true });
-
+        .from('categories')
+        .select('name, image')
+        .neq('name', '')
+        .order('name', { ascending: true });
+  
       if (error) {
         console.error('Error fetching categories:', error);
         setError('Failed to fetch categories.');
         return;
       }
-
+  
       const uniqueCategories = Array.from(new Set(data.map(item => ({
-        name: item.category,
-        imageUrl: item.category_image || '/images/logo-muvausa-store.webp',
+        name: item.name,
+        imageUrl: item.image || '/images/logo-muvausa-store.webp', // fallback image
       }))));
       setCategories(uniqueCategories);
     } catch (err) {
       console.error('Error:', err);
       setError('Failed to fetch categories.');
     }
-  };
+  };  
 
   const fetchBrands = async () => {
     if (!selectedCategory) {
       setBrands([]);
       return;
     }
-
+  
     try {
       const { data, error } = await supabase
-        .from('price_list')
-        .select('brand, brand_image')
+        .from('brands')
+        .select('name, image')
         .eq('category', selectedCategory)
-        .neq('brand', '')
-        .order('brand', { ascending: true });
-
+        .neq('name', '')
+        .order('name', { ascending: true });
+  
       if (error) {
         console.error('Error fetching brands:', error);
         setError('Failed to fetch brands.');
         return;
       }
-
+  
       const uniqueBrands = Array.from(new Set(data.map(item => ({
-        name: item.brand,
-        imageUrl: item.brand_image || "/images/logo-muvausa-store.webp",
+        name: item.name,
+        imageUrl: item.image || '/images/logo-muvausa-store.webp', // fallback image
       }))));
       setBrands(uniqueBrands);
     } catch (err) {
@@ -135,7 +138,7 @@ const SearchLocal = () => {
       setError('Failed to fetch brands.');
     }
   };
-
+  
   const fetchTypes = async () => {
     if (!selectedBrand) {
       setTypes([]);
@@ -299,7 +302,7 @@ const SearchLocal = () => {
               className="product bg-white shadow-lg rounded-lg overflow-hidden p-2"
             >
 <Link 
-  to={`/product/${product.id}?category=${selectedCategory}&brand=${selectedBrand}&type=${selectedType}`}
+  to={`/productlocal/${product.id}?category=${selectedCategory}&brand=${selectedBrand}&type=${selectedType}`}
 >
                 <img
                   className="w-full h-36 sm:h-48 md:h-64 border-b border-black pb-2 mb-2 object-cover object-center"

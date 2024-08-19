@@ -128,7 +128,7 @@ const Nav = () => {
                     <div className="hidden items-center justify-between hidden w-full md:flex md:w-auto md:order-1" id="navbar-sticky">
                         <ul className="flex flex-col gap-x-1 p-4 md:p-0 mt-4 font-medium border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-utama">
                             <li>
-                                <NavLink className={({ isActive }) => (isActive ? activeLink : nonActiveLink)} to='/'>Beranda</NavLink>
+                                <NavLink className={({ isActive }) => (isActive ? activeLink : nonActiveLink)} to='/home'>Beranda</NavLink>
                             </li>
                             <li>
                                 <NavLink className={({ isActive }) => (isActive ? activeLink : nonActiveLink)} to='/update'>Update</NavLink>
@@ -245,7 +245,7 @@ const Nav = () => {
                                     <h2 className="text-xl font-bold">Menu</h2>
                                     <ul className="mt-4">
                                         <li>
-                                            <NavLink className={({ isActive }) => (isActive ? 'block py-2 px-4 bg-gray-700 rounded' : 'block py-2 px-4 hover:bg-gray-700 rounded')} to='/'>Beranda</NavLink>
+                                            <NavLink className={({ isActive }) => (isActive ? 'block py-2 px-4 bg-gray-700 rounded' : 'block py-2 px-4 hover:bg-gray-700 rounded')} to='/home'>Beranda</NavLink>
                                         </li>
                                         <li>
                                             <NavLink className={({ isActive }) => (isActive ? 'block py-2 px-4 bg-gray-700 rounded' : 'block py-2 px-4 hover:bg-gray-700 rounded')} to='/update'>Update</NavLink>
