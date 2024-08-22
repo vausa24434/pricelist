@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { supabase } from '../../../supabaseClient';
 import axios from "axios";
 
-const Product = () => {
+const ProductLocal = () => {
   const { id } = useParams(); // Get ID from URL
   const navigate = useNavigate();
   const [product, setProduct] = useState(null);
@@ -106,8 +106,31 @@ const Product = () => {
   };
 
   const handleBeliSekarangClick = () => {
-    // Navigate to the purchase page or handle purchase logic
-    navigate(`/purchase/${product.id}`); // Example route to a purchase page
+    const namaProduk = product.product_name; // Nama produk dari variabel product
+    const linkProduk = window.location.href; // Mengambil link produk saat ini
+    
+    // Meminta ID tujuan dari pengguna
+    const idTujuan = prompt("Masukkan ID tujuan untuk pemesanan:");
+  
+    // Cek apakah ID tujuan diisi
+    if (idTujuan) {
+      // Format pesan untuk WhatsApp
+      const pesan = `Halo, saya ingin memesan produk berikut:\n\n*Nama Produk:* ${namaProduk}\n*Link Produk:* ${linkProduk}\n*ID Tujuan:* ${idTujuan}\n\nMohon informasi lebih lanjut.`;
+  
+      // Membuat URL WhatsApp dengan pesan yang sudah diformat
+      const whatsappUrl = `https://wa.me/6281234567890?text=${encodeURIComponent(pesan)}`;
+  
+      // Redirect ke WhatsApp
+      window.open(whatsappUrl, "_blank");
+    } else {
+      // Jika ID tujuan tidak diisi, tampilkan pesan kesalahan
+      alert("ID tujuan tidak diisi. Silakan masukkan ID tujuan untuk melanjutkan.");
+    }
+  };
+  
+
+  const formatHarga = (harga) => {
+    return harga.toLocaleString('id-ID',).replace(',', '.');
   };
 
   const MAX_DESCRIPTION_LENGTH = 250; // Adjust the length as needed
@@ -166,11 +189,12 @@ const Product = () => {
                 <h2 className="text-4xl mb-2 font-bold font-poppins text-utama text-center drop-shadow-lg overflow-hidden break-word">
                   {product.product_name}
                 </h2>
+                
                 <p className="mb-2 text-center text-base py-2 font-medium break-word">
-                  {product.product_status ? (<span className="text-green-500">Tersedia</span>) : (<span className="text-red-500">Gangguan</span>)}
+                  {product.product_status === "true" || product.product_status === true ? (<span className="text-green-500">Tersedia</span>) : (<span className="text-red-500">Gangguan</span>)}
                 </p>
                 <p className="mb-3 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg py-3 px-3 break-word">
-                  <span className="font-semibold">Harga Jual:</span> {product.sell_price}
+                  <span className="font-semibold">Harga:</span> Rp{product.sell_price ? formatHarga(product.sell_price) : "N/A"}
                 </p>
                 <p className="mb-3 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg py-3 px-3 break-word">
                   <span className="font-semibold">Brand:</span> {product.brand}
@@ -221,4 +245,4 @@ const Product = () => {
   );
 };
 
-export default Product;
+export default ProductLocal;

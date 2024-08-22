@@ -99,13 +99,13 @@ const SearchLocal = () => {
         .select('name, image')
         .neq('name', '')
         .order('name', { ascending: true });
-  
+
       if (error) {
         console.error('Error fetching categories:', error);
         setError('Failed to fetch categories.');
         return;
       }
-  
+
       const uniqueCategories = Array.from(new Set(data.map(item => ({
         name: item.name,
         imageUrl: item.image || '/images/logo-muvausa-store.webp', // fallback image
@@ -115,14 +115,14 @@ const SearchLocal = () => {
       console.error('Error:', err);
       setError('Failed to fetch categories.');
     }
-  };  
+  };
 
   const fetchBrands = async () => {
     if (!selectedCategory) {
       setBrands([]);
       return;
     }
-  
+
     try {
       const { data, error } = await supabase
         .from('brands')
@@ -130,13 +130,13 @@ const SearchLocal = () => {
         .eq('category', selectedCategory)
         .neq('name', '')
         .order('name', { ascending: true });
-  
+
       if (error) {
         console.error('Error fetching brands:', error);
         setError('Failed to fetch brands.');
         return;
       }
-  
+
       const uniqueBrands = Array.from(new Set(data.map(item => ({
         name: item.name,
         imageUrl: item.image || '/images/logo-muvausa-store.webp', // fallback image
@@ -147,7 +147,7 @@ const SearchLocal = () => {
       setError('Failed to fetch brands.');
     }
   };
-  
+
   const fetchTypes = async () => {
     if (!selectedBrand) {
       setTypes([]);
@@ -278,6 +278,10 @@ const SearchLocal = () => {
     return pageNumbers;
   };
 
+  const formatHarga = (harga) => {
+    return harga.toLocaleString('id-ID',).replace(',', '.');
+  };
+
   return (
     <div className="bg-bg_utama min-h-screen">
       <SearchBar
@@ -304,43 +308,69 @@ const SearchLocal = () => {
       ) : error ? (
         <div className="text-center text-red-600">{error}</div>
       ) : products.length > 0 ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {products.map((product, index) => (
+        <div className="grid grid-cols-2 md:grid-cols-6 gap-4">
+          {products.map((product) => (
             <div
               key={product.id}
-              className="product bg-white shadow-lg rounded-lg overflow-hidden p-2"
+              className="group bg-white shadow-md rounded-lg overflow-hidden transform transition-transform hover:scale-105 hover:shadow-xl"
             >
-<Link 
-  to={`/productlocal/${product.id}?category=${selectedCategory}&brand=${selectedBrand}&type=${selectedType}`}
->
-                <img
-                  className="w-full h-36 sm:h-48 md:h-64 border-b border-black pb-2 mb-2 object-cover object-center"
-                  src={product.image_url || "/images/logo-muvausa-store.webp"}
-                  alt={product.product_name}
-                />
-                <div className="p-2 md:p-4">
-                  <h3 className="text-sm md:text-lg font-bold mb-1">
-                    {(product.product_name)}
+              <Link
+                to={`/productlocal/${product.id}?category=${selectedCategory}&brand=${selectedBrand}&type=${selectedType}`}
+              >
+                <div className="relative">
+                  {/* Overlay 'Gangguan' jika status produk adalah gangguan */}
+                  {product.product_status === "false" || product.product_status === false ? (
+                    <div className="absolute inset-0 bg-black bg-opacity-60 flex items-center justify-center">
+                      <span className="text-white font-bold text-lg md:text-xl">
+                        Gangguan
+                      </span>
+                    </div>
+                  ) : null}
+
+                  <img
+                    className="w-full h-48 md:h-56 lg:h-64 object-cover object-center transition-opacity"
+                    src={product.image_url || "/images/logo-muvausa-store.webp"}
+                    alt={product.product_name}
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-70 transition-opacity group-hover:opacity-50"></div>
+                </div>
+                <div className="p-4">
+                  <p className="text-gray-400 text-xs md:text-sm uppercase tracking-wide mb-1">
+                    {product.brand}
+                  </p>
+                  <h3 className="text-sm md:text-base font-bold text-gray-900 mb-1 group-hover:text-gray-700 transition-colors">
+                    {product.product_name}
                   </h3>
-                  <p className="text-gray-600">{product.desc}</p>
-                  <p className="text-gray-800 font-bold">
-                    Harga: Rp {product.sell_price ? product.sell_price.toLocaleString() : 'N/A'}
-                  </p>
-                  <p>Brand: {product.brand}</p>
-                  <p>Kategori: {product.category}</p>
-                  <p>Type: {product.type}</p>
-                  <p>
-                    Status: {product.product_status ? "Tersedia" : "Gangguan"}
-                  </p>
-                  <p>Support Multi Transaksi?: {product.multi ? "Ya" : "Tidak"}</p>
-                  {product.cut_off_time && (
-                    <p>Jam Cut-off: {product.cut_off_time}</p>
+                  <h2 className="text-lg md:text-xl font-bold text-[#0055bb] mb-2">
+      Rp{product.sell_price ? formatHarga(product.sell_price) : "N/A"}
+    </h2>
+                  {product.product_status === "true" || product.product_status === true ? (
+                    <span className="inline-flex items-center px-2 py-1 bg-green-100 text-green-600 font-medium text-[10px] md:text-xs rounded-full space-x-1">
+                      <svg
+                        className="w-3 h-3 md:w-4 md:h-4"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="2"
+                          d="M5 13l4 4L19 7"
+                        ></path>
+                      </svg>
+                      <span>Tersedia</span>
+                    </span>
+                  ) : (
+                    <span className="text-red-500"></span>
                   )}
                 </div>
               </Link>
             </div>
           ))}
         </div>
+
       ) : (
         <div className="text-center">Tidak ada produk yang ditemukan.</div>
       )}

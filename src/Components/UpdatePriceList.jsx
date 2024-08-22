@@ -6,6 +6,8 @@ const UpdatePriceList = () => {
   const [products, setProducts] = useState([]);
   const [error, setError] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
+  const [showDetails, setShowDetails] = useState(false); // State untuk mengatur visibilitas harga dan SKU
+  const [targetId, setTargetId] = useState(""); // State untuk menyimpan id tujuan
 
   useEffect(() => {
     const fetchPriceList = async () => {
@@ -13,12 +15,24 @@ const UpdatePriceList = () => {
         const response = await axios.post('/api/price-list', {
           cmd: 'prepaid',
           code: '', // Atau parameter lain yang dibutuhkan
-        });
+        },
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
 
-        console.log("Response data:", response.data);
         const productsData = response.data.data;
-        setProducts(productsData);
-        await saveProductsToSupabase(productsData);
+        if (Array.isArray(productsData)) {
+          const supabaseData = await fetchSupabaseData();
+          const mergedProducts = mergeProducts(productsData, supabaseData);
+          setProducts(mergedProducts);
+          await saveProductsToSupabase(mergedProducts);
+        } else {
+          console.error("Unexpected data format:", productsData);
+          setError("Invalid data format received.");
+        }
       } catch (error) {
         console.error("Error fetching price list:", error);
         setError("Failed to fetch price list.");
@@ -27,6 +41,35 @@ const UpdatePriceList = () => {
 
     fetchPriceList();
   }, []);
+
+  const fetchSupabaseData = async () => {
+    try {
+      const { data, error } = await supabase
+        .from("price_list")
+        .select("buyer_sku_code, sell_price");
+
+      if (error) {
+        console.error("Error fetching data from Supabase:", error);
+        return [];
+      }
+      return data;
+    } catch (error) {
+      console.error("Error fetching from Supabase:", error);
+      return [];
+    }
+  };
+
+  const mergeProducts = (apiProducts, supabaseData) => {
+    return apiProducts.map((product) => {
+      const match = supabaseData.find(
+        (item) => item.buyer_sku_code === product.buyer_sku_code
+      );
+      return {
+        ...product,
+        sell_price: match ? match.sell_price : product.sell_price, // Gunakan harga dari Supabase jika ada, jika tidak gunakan harga dari API
+      };
+    });
+  };
 
   const saveProductsToSupabase = async (products) => {
     try {
@@ -57,6 +100,32 @@ const UpdatePriceList = () => {
     }
   };
 
+  const mapToNumeric = (char) => {
+    if (/[0-9]/.test(char)) return char; // Jika sudah angka, kembalikan langsung
+    if (/[a-zA-Z]/.test(char)) return char.toLowerCase().charCodeAt(0) - 96; // Ubah huruf jadi angka (a=1, z=26)
+    return char.charCodeAt(0) % 10; // Ubah simbol jadi angka dengan modulus 10
+  };
+
+  const generateReference = () => {
+    const lastFourChars = targetId.slice(-4).split("").map(mapToNumeric).join(""); // Ambil 4 karakter terakhir dan ubah menjadi angka
+    const date = new Date();
+    const formattedDate = `${date.getFullYear()}${String(date.getMonth() + 1).padStart(2, "0")}${String(date.getDate()).padStart(2, "0")}`;
+    const formattedTime = `${String(date.getHours()).padStart(2, "0")}${String(date.getMinutes()).padStart(2, "0")}${String(date.getSeconds()).padStart(2, "0")}`;
+    return `${lastFourChars}${formattedDate}${formattedTime}`;
+  };
+
+  const copyToClipboard = (sku) => {
+    if (!targetId) {
+      alert("Silakan masukkan ID tujuan terlebih dahulu!");
+      return;
+    }
+    const reference = generateReference();
+    const formattedText = `${sku}.${targetId}.123456 R#${reference}`;
+    navigator.clipboard.writeText(formattedText).then(() => {
+      alert(`Berhasil disalin: ${formattedText}`);
+    });
+  };
+
   // Filter products based on search query
   const filteredProducts = products.filter((product) =>
     product.product_name.toLowerCase().includes(searchQuery.toLowerCase())
@@ -73,8 +142,25 @@ const UpdatePriceList = () => {
         placeholder="Search products..."
         value={searchQuery}
         onChange={(e) => setSearchQuery(e.target.value)}
-        className="mb-4 p-2 border border-gray-300 rounded-md w-full"
+        className="sticky top-0 z-10 mb-4 p-2 border border-gray-300 rounded-md w-full bg-white"
       />
+
+      {/* Input untuk mengisi ID tujuan */}
+      <input
+        type="text"
+        placeholder="Masukkan ID tujuan"
+        value={targetId}
+        onChange={(e) => setTargetId(e.target.value)}
+        className="sticky top-12 z-10 mb-4 p-2 border border-gray-300 rounded-md w-full bg-white"
+      />
+
+      {/* Tombol untuk mengatur visibilitas harga dan SKU */}
+      <button
+        onClick={() => setShowDetails(!showDetails)}
+        className="mb-4 p-2 bg-blue-500 text-white rounded-md"
+      >
+        {showDetails ? "Sembunyikan Detail" : "Tampilkan Detail"}
+      </button>
 
       {products.length === 0 ? (
         <p>Loading...</p>
@@ -84,14 +170,20 @@ const UpdatePriceList = () => {
             {filteredProducts.map((product, index) => (
               <div
                 key={index}
-                className="bg-white shadow-md rounded-lg p-4 border"
+                className="bg-white shadow-md rounded-lg p-4 border cursor-pointer"
+                onMouseDown={() => copyToClipboard(product.buyer_sku_code)} // Event untuk menyalin SKU dengan ID tujuan
               >
                 <h2 className="text-xl font-semibold">{product.product_name}</h2>
                 <p className="text-gray-600">{product.desc}</p>
-                <p className="text-gray-800 font-bold">
-                  Harga: Rp {product.price.toLocaleString()}
-                </p>
-                <p>SKU: {product.buyer_sku_code}</p>
+                {/* Tampilkan harga dan SKU berdasarkan nilai showDetails */}
+                {showDetails && (
+                  <>
+                    <p className="text-gray-800 font-bold">
+                      Asli: Rp {product.price}
+                    </p>
+                    <p>SKU: {product.buyer_sku_code}</p>
+                  </>
+                )}
               </div>
             ))}
           </div>
