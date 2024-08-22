@@ -715,7 +715,7 @@ const SearchLocal = () => {
               className="group bg-white shadow-md rounded-lg overflow-hidden transform transition-transform hover:scale-105 hover:shadow-xl"
             >
               <Link
-                to={`/productlocal/${product.id}?category=${selectedCategory}&brand=${selectedBrand}&type=${selectedType}`}
+                to={`/product/${product.id}?category=${selectedCategory}&brand=${selectedBrand}&type=${selectedType}`}
               >
                 <div className="relative">
                   {/* Overlay 'Gangguan' jika status produk adalah gangguan */}
