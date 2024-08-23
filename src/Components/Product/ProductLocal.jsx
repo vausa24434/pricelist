@@ -22,7 +22,7 @@ const ProductLocal = () => {
       try {
         setLoading(true);
 
-        const username = process.env.VITE_USERNAME;
+        const username = processimport.meta.env.VITE_USERNAME;
         const sign = process.env.VITE_SIGN;
 
         // Fetch data from external API
@@ -131,7 +131,7 @@ const ProductLocal = () => {
       const pesan = `Halo, saya ingin memesan produk berikut:\n\n*Nama Produk:* ${namaProduk}\n*Link Produk:* ${linkProduk}\n*ID Tujuan:* ${idTujuan}\n\nMohon informasi lebih lanjut.`;
   
       // Membuat URL WhatsApp dengan pesan yang sudah diformat
-      const whatsappUrl = `https://wa.me/6281234567890?text=${encodeURIComponent(pesan)}`;
+      const whatsappUrl = `https://wa.me/6288227397243?text=${encodeURIComponent(pesan)}`;
   
       // Redirect ke WhatsApp
       window.open(whatsappUrl, "_blank");
@@ -220,9 +220,6 @@ const ProductLocal = () => {
                 </p>
                 <p className="mb-3 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg py-3 px-3 break-word">
                   <span className="font-semibold">Support Multi Transaksi:</span> {product.multi ? "Ya" : "Tidak"}
-                </p>
-                <p className="mb-3 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg py-3 px-3 break-word">
-                  <span className="font-semibold">Jam Cut Off:</span> {product.cut_off_time}
                 </p>
                 <div className="relative mb-3 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg py-3 px-3 break-word">
                   <span className="font-semibold">Description:</span> {displayedDescription}
