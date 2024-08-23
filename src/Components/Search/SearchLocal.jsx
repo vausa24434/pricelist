@@ -308,67 +308,74 @@ const SearchLocal = () => {
       ) : error ? (
         <div className="text-center text-red-600">{error}</div>
       ) : products.length > 0 ? (
-        <div className="grid grid-cols-2 md:grid-cols-6 gap-4">
-          {products.map((product) => (
-            <div
-              key={product.id}
-              className="group bg-white shadow-md rounded-lg overflow-hidden transform transition-transform hover:scale-105 hover:shadow-xl"
-            >
-              <Link
-                to={`/productlocal/${product.id}?category=${selectedCategory}&brand=${selectedBrand}&type=${selectedType}`}
-              >
-                <div className="relative">
-                  {/* Overlay 'Gangguan' jika status produk adalah gangguan */}
-                  {product.product_status === "false" || product.product_status === false ? (
-                    <div className="absolute inset-0 bg-black bg-opacity-60 flex items-center justify-center">
-                      <span className="text-white font-bold text-lg md:text-xl">
-                        Gangguan
-                      </span>
-                    </div>
-                  ) : null}
 
-                  <img
-                    className="w-full h-48 md:h-56 lg:h-64 object-cover object-center transition-opacity"
-                    src={product.image_url || "/images/logo-muvausa-store.webp"}
-                    alt={product.product_name}
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-70 transition-opacity group-hover:opacity-50"></div>
-                </div>
-                <div className="p-4">
-                  <p className="text-gray-400 text-xs md:text-sm uppercase tracking-wide mb-1">
-                    {product.brand}
-                  </p>
-                  <h3 className="text-sm md:text-base font-bold text-gray-900 mb-1 group-hover:text-gray-700 transition-colors">
-                    {product.product_name}
-                  </h3>
-                  <h2 className="text-lg md:text-xl font-bold text-[#0055bb] mb-2">
-      Rp{product.sell_price ? formatHarga(product.sell_price) : "N/A"}
-    </h2>
-                  {product.product_status === "true" || product.product_status === true ? (
-                    <span className="inline-flex items-center px-2 py-1 bg-green-100 text-green-600 font-medium text-[10px] md:text-xs rounded-full space-x-1">
-                      <svg
-                        className="w-3 h-3 md:w-4 md:h-4"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth="2"
-                          d="M5 13l4 4L19 7"
-                        ></path>
-                      </svg>
-                      <span>Tersedia</span>
-                    </span>
-                  ) : (
-                    <span className="text-red-500"></span>
-                  )}
-                </div>
-              </Link>
-            </div>
-          ))}
+        <div className="grid grid-cols-2 md:grid-cols-6 gap-4">
+          {products.map((product) => {
+            const harga = product.sell_price ? formatHarga(product.sell_price) : "N/A";
+            const isHargaTerlaluPanjang = harga.length > 8;
+
+            // Potong harga hingga 8 karakter dan tambahkan "..." jika terlalu panjang
+            const hargaTampilan = isHargaTerlaluPanjang ? `Rp${harga.slice(0, 8)}...` : `Rp${harga}`;
+
+            // Potong product_name hingga 55 karakter dan tambahkan "..." jika terlalu panjang
+            const namaProdukTampilan =
+              product.product_name.length > 55
+                ? `${product.product_name.slice(0, 55)}...`
+                : product.product_name;
+
+            return (
+              <div
+                key={product.id}
+                className="group bg-white shadow-md rounded-lg overflow-hidden transform transition-transform hover:scale-105 hover:shadow-xl"
+              >
+                <Link
+                  to={`/productlocal/${product.id}?category=${selectedCategory}&brand=${selectedBrand}&type=${selectedType}`}
+                >
+                  <div className="relative">
+                    {/* Overlay 'Gangguan' jika status produk adalah gangguan */}
+                    {product.product_status === "false" || product.product_status === false ? (
+                      <div className="absolute inset-0 bg-black bg-opacity-60 flex items-center justify-center">
+                        <span className="text-white font-bold text-lg md:text-xl">
+                          Gangguan
+                        </span>
+                      </div>
+                    ) : null}
+
+                    <img
+                      className="w-full h-48 object-cover object-center transition-opacity"
+                      src={product.image_url || "/images/logo-muvausa-store.webp"}
+                      alt={product.product_name}
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-70 transition-opacity group-hover:opacity-50"></div>
+                  </div>
+                  <div className="p-4 flex flex-col justify-between h-40">
+                    <div>
+                      <p className="text-gray-500 text-xs font-medium uppercase tracking-wide mb-1">
+                        {product.brand}
+                      </p>
+                      <h3 className="text-sm md:text-base font-bold text-gray-900 mb-1 group-hover:text-gray-700 transition-colors">
+                        {namaProdukTampilan}
+                      </h3>
+                    </div>
+                    <div className="mt-auto flex justify-between items-center space-x-2">
+                      <h2 className="text-lg font-bold text-[#0055bb] flex-shrink-0">
+                        {hargaTampilan}
+                      </h2>
+                      {product.product_status === "true" || product.product_status === true ? (
+                        <span className="inline-flex items-center px-2 py-1 bg-green-100 text-green-600 font-medium text-[10px] md:text-xs rounded-full flex-shrink-0 w-[60px] justify-center">
+                          Tersedia
+                        </span>
+                      ) : (
+                        <span className="inline-flex items-center px-2 py-1 bg-red-100 text-red-600 font-medium text-[10px] md:text-xs rounded-full flex-shrink-0 w-[60px] justify-center">
+                          Kosong
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                </Link>
+              </div>
+            );
+          })}
         </div>
 
       ) : (
