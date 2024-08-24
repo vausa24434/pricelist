@@ -5,25 +5,9 @@ const TransactionComponent = () => {
   const [response, setResponse] = useState(null);
   const [error, setError] = useState(null);
 
-  // const handleTransaction = async () => {
-  //   try {
-  //     const response = await axios.post("https://api.digiflazz.com/v1/transaction", {
-  //       username: "yitaxig4J76D",
-  //       buyer_sku_code: "xld10",
-  //       customer_no: "087800001232",
-  //       ref_id: "test2",
-  //       sign: "438480f0d83ba5eb44ec67271b7b4d21",
-  //     });
-  //     setResponse(response.data);
-  //   } catch (error) {
-  //     setError("Failed to fetch data");
-  //     console.error(error);
-  //   }
-  // };
-
   const handleTransaction = async () => {
     try {
-      const response = await axios.post("http://localhost:3002/transaction", {
+      const response = await axios.post("https://api.digiflazz.com/v1/transaction", {
         username: "yitaxig4J76D",
         buyer_sku_code: "xld10",
         customer_no: "087800001232",
