@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const Banner = () => {
+const SuggestionBanner = () => {
     const [isVisible, setIsVisible] = useState(true);
 
     // Fungsi untuk menutup banner
@@ -27,8 +27,8 @@ const Banner = () => {
                         <span>
                             Ada barang yang belum tersedia?{' '}
                             <a
-                                href="https://flowbite.com"
-                                className=" items-center ms-0 text-sm font-medium text-blue-600 md:ms-1 md:inline-flex dark:text-blue-500 hover:underline"
+                                href="https://wa.me/6288227397243"
+                                className="flex items-center ms-0 text-sm font-medium text-blue-600 md:ms-1 md:inline-flex dark:text-blue-500 hover:underline"
                             >
                                 Hubungi Kami
                             </a>
@@ -65,4 +65,4 @@ const Banner = () => {
     );
 };
 
-export default Banner;
+export default SuggestionBanner;
