@@ -3,6 +3,7 @@ import { useLocation, Link } from 'react-router-dom';
 import axios from 'axios';
 import { supabase } from '../../../supabaseClient';
 import SearchBar from './SearchBar';
+import Banner from '../Home/Banner';
 
 const SearchLocal = () => {
   const location = useLocation();
@@ -39,11 +40,11 @@ const SearchLocal = () => {
         setLoading(true);
 
         // Fetch data from external API
-        const username = process.env.VITE_USERNAME;
-        const sign = process.env.VITE_SIGN;
+        const username = import.meta.env.VITE_USERNAME;
+        const sign = import.meta.env.VITE_SIGN;
 
         const response = await axios.post(
-          "http://localhost:3001/price-list",
+          "http://localhost:3002/price-list",
           {
             cmd: "prepaid",
             username: username,
@@ -441,6 +442,7 @@ const SearchLocal = () => {
           )}
         </div>
       </div>
+      <Banner></Banner>
     </div>
   );
 };

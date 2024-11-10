@@ -3,6 +3,7 @@ import { useLocation, Link } from 'react-router-dom';
 import axios from 'axios';
 import { supabase } from '../../../supabaseClient';
 import SearchBar from './SearchBar';
+import Banner from '../Home/Banner';
 
 const Search = () => {
   const location = useLocation();
@@ -428,6 +429,7 @@ const Search = () => {
           )}
         </div>
       </div>
+      <Banner></Banner>
     </div>
   );
 };
