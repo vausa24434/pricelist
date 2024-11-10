@@ -6,19 +6,19 @@ const UpdatePriceList = () => {
   const [products, setProducts] = useState([]);
   const [error, setError] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
-  const [showDetails, setShowDetails] = useState(false); // State untuk mengatur visibilitas harga dan SKU
-  const [targetId, setTargetId] = useState(""); // State untuk menyimpan id tujuan
+  const [showDetails, setShowDetails] = useState(false);
+  const [targetId, setTargetId] = useState("");
 
   useEffect(() => {
     const fetchPriceList = async () => {
       try {
         const response = await axios.post(
-          "http://localhost:3001/price-list",
+          "http://localhost:3002/price-list",
           {
             cmd: "prepaid",
-            username: process.env.VITE_USERNAME,
+            username: import.meta.env.VITE_USERNAME,
             code: "",
-            sign: process.env.VITE_SIGN,
+            sign: import.meta.env.VITE_SIGN,
           },
           {
             headers: {
@@ -49,13 +49,14 @@ const UpdatePriceList = () => {
   const fetchSupabaseData = async () => {
     try {
       const { data, error } = await supabase
-        .from("price_list")
+        .from("products")
         .select("buyer_sku_code, sell_price");
 
       if (error) {
         console.error("Error fetching data from Supabase:", error);
         return [];
       }
+      
       return data;
     } catch (error) {
       console.error("Error fetching from Supabase:", error);
@@ -68,16 +69,16 @@ const UpdatePriceList = () => {
       const match = supabaseData.find(
         (item) => item.buyer_sku_code === product.buyer_sku_code
       );
+      console.log("Match found for product:", product.product_name, match); // Debugging output
       return {
         ...product,
-        sell_price: match ? match.sell_price : product.sell_price, // Gunakan harga dari Supabase jika ada, jika tidak gunakan harga dari API
+        sell_price: match ? match.sell_price : product.sell_price,
       };
     });
   };
 
   const saveProductsToSupabase = async (products) => {
     try {
-      // Hapus duplikat berdasarkan product_name
       const uniqueProducts = products.reduce((acc, current) => {
         const x = acc.find((item) => item.product_name === current.product_name);
         if (!x) {
@@ -104,33 +105,26 @@ const UpdatePriceList = () => {
     }
   };
 
-  const mapToNumeric = (char) => {
-    if (/[0-9]/.test(char)) return char; // Jika sudah angka, kembalikan langsung
-    if (/[a-zA-Z]/.test(char)) return char.toLowerCase().charCodeAt(0) - 96; // Ubah huruf jadi angka (a=1, z=26)
-    return char.charCodeAt(0) % 10; // Ubah simbol jadi angka dengan modulus 10
-  };
-
   const generateReference = () => {
-    const lastFourChars = targetId.slice(-4).split("").map(mapToNumeric).join(""); // Ambil 4 karakter terakhir dan ubah menjadi angka
+    const lastFourChars = targetId.slice(-4);
     const date = new Date();
     const formattedDate = `${date.getFullYear()}${String(date.getMonth() + 1).padStart(2, "0")}${String(date.getDate()).padStart(2, "0")}`;
     const formattedTime = `${String(date.getHours()).padStart(2, "0")}${String(date.getMinutes()).padStart(2, "0")}${String(date.getSeconds()).padStart(2, "0")}`;
     return `${lastFourChars}${formattedDate}${formattedTime}`;
   };
 
-  const copyToClipboard = (sku) => {
+  const copyToClipboard = (sku, productName, sellPrice = "Harga Tidak Tersedia") => {
     if (!targetId) {
       alert("Silakan masukkan ID tujuan terlebih dahulu!");
       return;
     }
     const reference = generateReference();
-    const formattedText = `${sku}.${targetId}.123456 R#${reference}`;
+    const formattedText = `${sku}.${targetId}.123456 R#${reference}\n;${productName};Rp.${sellPrice}`;
     navigator.clipboard.writeText(formattedText).then(() => {
-      alert(`Berhasil disalin: ${formattedText}`);
+      alert(`Berhasil disalin:\n${formattedText}`);
     });
   };
 
-  // Filter products based on search query
   const filteredProducts = products.filter((product) =>
     product.product_name.toLowerCase().includes(searchQuery.toLowerCase())
   );
@@ -140,7 +134,6 @@ const UpdatePriceList = () => {
       <h1 className="text-2xl font-bold mb-4">Price List</h1>
       {error && <p className="text-red-500">{error}</p>}
 
-      {/* Search Bar */}
       <input
         type="text"
         placeholder="Search products..."
@@ -149,7 +142,6 @@ const UpdatePriceList = () => {
         className="sticky top-0 z-10 mb-4 p-2 border border-gray-300 rounded-md w-full bg-white"
       />
 
-      {/* Input untuk mengisi ID tujuan */}
       <input
         type="text"
         placeholder="Masukkan ID tujuan"
@@ -158,7 +150,6 @@ const UpdatePriceList = () => {
         className="sticky top-12 z-10 mb-4 p-2 border border-gray-300 rounded-md w-full bg-white"
       />
 
-      {/* Tombol untuk mengatur visibilitas harga dan SKU */}
       <button
         onClick={() => setShowDetails(!showDetails)}
         className="mb-4 p-2 bg-blue-500 text-white rounded-md"
@@ -172,24 +163,30 @@ const UpdatePriceList = () => {
         Array.isArray(filteredProducts) && (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {filteredProducts.map((product, index) => (
-              <div
-                key={index}
-                className="bg-white shadow-md rounded-lg p-4 border cursor-pointer"
-                onMouseDown={() => copyToClipboard(product.buyer_sku_code)} // Event untuk menyalin SKU dengan ID tujuan
-              >
-                <h2 className="text-xl font-semibold">{product.product_name}</h2>
-                <p className="text-gray-600">{product.desc}</p>
-                {/* Tampilkan harga dan SKU berdasarkan nilai showDetails */}
-                {showDetails && (
-                  <>
-                    <p className="text-gray-800 font-bold">
-                      Asli: Rp {product.price}
-                    </p>
-                    <p>SKU: {product.buyer_sku_code}</p>
-                  </>
-                )}
-              </div>
-            ))}
+  <div
+    key={index}
+    className="bg-white shadow-md rounded-lg p-4 border cursor-pointer"
+    onMouseDown={() => copyToClipboard(
+      product.buyer_sku_code,
+      product.product_name,
+      product.sell_price || "Harga Tidak Tersedia"
+    )}
+  >
+    <h2 className="text-xl font-semibold">{product.product_name}</h2>
+    <p className="text-gray-600">{product.desc}</p>
+    {showDetails && (
+      <>
+        <p className="text-gray-800 font-bold">
+          Asli: Rp {product.price}
+        </p>
+        <p className="text-gray-800 font-bold">
+          Sell Price: Rp {product.sell_price}
+        </p>
+        <p>SKU: {product.buyer_sku_code}</p>
+      </>
+    )}
+  </div>
+))}
           </div>
         )
       )}

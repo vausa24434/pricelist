@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import MD5 from "crypto-js/md5";
 
-const Transaction = () => {
+const TransactionLocal = () => {
   const [response, setResponse] = useState(null);
   const [error, setError] = useState(null);
 
@@ -40,4 +40,4 @@ const Transaction = () => {
   );
 };
 
-export default Transaction;
+export default TransactionLocal;

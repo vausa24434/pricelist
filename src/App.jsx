@@ -11,6 +11,7 @@ import ProductPage from './Pages/Product';
 import ProductLocalPage from './Pages/ProductLocal';
 import HomePage from './Pages/HomePage';
 import DepositPage from './Pages/Deposit';
+import TransactionLocalPage from './Pages/TransactionLocal';
 import TransactionPage from './Pages/Transaction';
 
 function App() {
@@ -42,7 +43,7 @@ function App() {
           <Route path="/update" element={<ProtectedRoute><UpdatePriceList setToken={setToken} /></ProtectedRoute>} />
           <Route path="/deposit" element={<DepositPage />} />
           <Route path="/transaction" element={<TransactionPage />} />
-
+          <Route path="/transactionlocal" element={<TransactionLocalPage />} />
 
         </Routes>
       </BrowserRouter>
