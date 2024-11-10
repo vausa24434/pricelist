@@ -115,7 +115,7 @@ const copyToClipboard = (sku, productName, sellPrice = "Harga Tidak Tersedia") =
     return;
   }
   const reference = generateReference();
-  const formattedText = `${sku}.${targetId}.123456 R#${reference}\n;${productName};Rp.${sellPrice}`;
+  const formattedText = `${sku}.${targetId}.123456 R#${reference}\n\n;${productName};Rp.${sellPrice}`;
   navigator.clipboard.writeText(formattedText).then(() => {
     alert(`Berhasil disalin:\n${formattedText}`);
   });
