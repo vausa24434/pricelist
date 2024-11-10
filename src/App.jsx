@@ -11,8 +11,11 @@ import ProductPage from './Pages/Product';
 import ProductLocalPage from './Pages/ProductLocal';
 import HomePage from './Pages/HomePage';
 import DepositPage from './Pages/Deposit';
+<<<<<<< HEAD
 import TransactionLocalPage from './Pages/TransactionLocal';
 import TransactionPage from './Pages/Transaction';
+=======
+>>>>>>> 48e493e7b24637031b0d1a5d56c74cf72ac8795b
 
 function App() {
   const [token, setToken] = useState(false)
@@ -42,8 +45,12 @@ function App() {
           <Route path="/productlocal/:id" element={<ProductLocalPage />} />
           <Route path="/update" element={<ProtectedRoute><UpdatePriceList setToken={setToken} /></ProtectedRoute>} />
           <Route path="/deposit" element={<DepositPage />} />
+<<<<<<< HEAD
           <Route path="/transaction" element={<TransactionPage />} />
           <Route path="/transactionlocal" element={<TransactionLocalPage />} />
+=======
+
+>>>>>>> 48e493e7b24637031b0d1a5d56c74cf72ac8795b
 
         </Routes>
       </BrowserRouter>
