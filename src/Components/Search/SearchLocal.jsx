@@ -34,14 +34,23 @@ const SearchLocal = () => {
   const [brands, setBrands] = useState([]);
   const [types, setTypes] = useState([]);
 
+  //State untuk Pengaturan Sortir
+  const [sortOrder, setSortOrder] = useState(); // Default ke termurah
+
+  // Fungsi untuk Mengubah Sortir
+  const handleSortChange = () => {
+    setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
+  };
+
+
   useEffect(() => {
     const fetchAndUpdatePriceList = async () => {
       try {
         setLoading(true);
 
         // Fetch data from external API
-        const username = import.meta.env.VITE_USERNAME;
-        const sign = import.meta.env.VITE_SIGN;
+        const username = process.env.VITE_USERNAME;
+        const sign = process.env.VITE_SIGN;
 
         const response = await axios.post(
           "http://localhost:3002/price-list",
@@ -90,8 +99,8 @@ const SearchLocal = () => {
 
   // Reset currentPage to 1 when search parameters change
   useEffect(() => {
-    fetchProducts(); // Fetch products when search parameters change
-  }, [currentPage, searchName, selectedCategory, selectedBrand, selectedType]);
+    fetchProducts();
+  }, [sortOrder, currentPage, searchName, selectedCategory, selectedBrand, selectedType]);
 
   const fetchCategories = async () => {
     try {
@@ -252,7 +261,8 @@ const SearchLocal = () => {
       query = query.eq('type', selectedType);
     }
 
-    query = query.order('created_at', { ascending: false });
+    // Urutkan berdasarkan harga sesuai sortOrder
+    query = query.order('sell_price', { ascending: sortOrder === 'asc' });
 
     const from = (currentPage - 1) * productsPerPage;
     const to = from + productsPerPage - 1;
@@ -298,12 +308,16 @@ const SearchLocal = () => {
         types={types}
       />
 
-      <div className="text-center mb-8">
-        <h1 className="text-xl md:text-2xl font-bold">
-          Hasil Pencarian
-        </h1>
-        <p className="text-base md:text-lg mt-2">{productsCount} produk ditemukan</p>
+      <div className="flex justify-between items-center">
+        <h1 className="text-xl md:text-2xl font-bold">Hasil Pencarian</h1>
+        <button
+          onClick={handleSortChange}
+          className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition"
+        >
+          {sortOrder === 'asc' ? 'Harga Terendah' : 'Harga Tertinggi'}
+        </button>
       </div>
+
       {loading ? (
         <div className="text-center">Loading...</div>
       ) : error ? (

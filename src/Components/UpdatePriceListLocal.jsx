@@ -8,6 +8,7 @@ const UpdatePriceList = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [showDetails, setShowDetails] = useState(false);
   const [targetId, setTargetId] = useState("");
+  const [sortOrder, setSortOrder] = useState("asc"); // State for sorting order
 
   useEffect(() => {
     const fetchPriceList = async () => {
@@ -16,9 +17,9 @@ const UpdatePriceList = () => {
           "http://localhost:3002/price-list",
           {
             cmd: "prepaid",
-            username: import.meta.env.VITE_USERNAME,
+            username: process.env.VITE_USERNAME,
             code: "",
-            sign: import.meta.env.VITE_SIGN,
+            sign: process.env.VITE_SIGN,
           },
           {
             headers: {
@@ -56,7 +57,7 @@ const UpdatePriceList = () => {
         console.error("Error fetching data from Supabase:", error);
         return [];
       }
-      
+
       return data;
     } catch (error) {
       console.error("Error fetching from Supabase:", error);
@@ -125,6 +126,16 @@ const UpdatePriceList = () => {
     });
   };
 
+  const handleSort = () => {
+    const sortedProducts = [...products].sort((a, b) =>
+      sortOrder === "asc"
+        ? a.sell_price - b.sell_price
+        : b.sell_price - a.sell_price
+    );
+    setProducts(sortedProducts);
+    setSortOrder(sortOrder === "asc" ? "desc" : "asc");
+  };
+
   const filteredProducts = products.filter((product) =>
     product.product_name.toLowerCase().includes(searchQuery.toLowerCase())
   );
@@ -157,36 +168,41 @@ const UpdatePriceList = () => {
         {showDetails ? "Sembunyikan Detail" : "Tampilkan Detail"}
       </button>
 
+      <button
+        onClick={handleSort}
+        className="mb-4 ml-2 p-2 bg-green-500 text-white rounded-md"
+      >
+        {sortOrder === "asc" ? "Sort ke Harga Terendah" : "Sort ke Harga Tertinggi"}
+      </button>
+
       {products.length === 0 ? (
         <p>Loading...</p>
       ) : (
         Array.isArray(filteredProducts) && (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {filteredProducts.map((product, index) => (
-  <div
-    key={index}
-    className="bg-white shadow-md rounded-lg p-4 border cursor-pointer"
-    onMouseDown={() => copyToClipboard(
-      product.buyer_sku_code,
-      product.product_name,
-      product.sell_price || "Harga Tidak Tersedia"
-    )}
-  >
-    <h2 className="text-xl font-semibold">{product.product_name}</h2>
-    <p className="text-gray-600">{product.desc}</p>
-    {showDetails && (
-      <>
-        <p className="text-gray-800 font-bold">
-          Asli: Rp {product.price}
-        </p>
-        <p className="text-gray-800 font-bold">
-          Sell Price: Rp {product.sell_price}
-        </p>
-        <p>SKU: {product.buyer_sku_code}</p>
-      </>
-    )}
-  </div>
-))}
+              <div
+                key={index}
+                className="bg-white shadow-md rounded-lg p-4 border cursor-pointer"
+                onMouseDown={() => copyToClipboard(
+                  product.buyer_sku_code,
+                  product.product_name,
+                  product.sell_price || "Harga Tidak Tersedia"
+                )}
+              >
+                <h2 className="text-xl font-semibold">{product.product_name}</h2>
+                <p className="text-gray-600">{product.desc}</p>
+                <p className="text-gray-800 font-bold">Rp{product.sell_price}</p>
+                {showDetails && (
+                  <>
+                    <p className="text-gray-800 font-bold">
+                      Member price: Rp {product.price}
+                    </p>
+                    <p>SKU: {product.buyer_sku_code}</p>
+                  </>
+                )}
+              </div>
+            ))}
           </div>
         )
       )}
